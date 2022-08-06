@@ -8,6 +8,6 @@
         @vite('resources/js/controllers/web/app.ts')
     </head>
     <body>
-        <div class="test"><test></test></div>
+        <div class="test"><editor-simple /></div>
     </body>
 </html>

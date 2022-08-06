@@ -1,45 +1,45 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue2';
-import fs from 'fs';
-import path from'path';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import vue from "@vitejs/plugin-vue2";
+import fs from "fs";
+import path from "path";
 
 const getAllFiles = (directory): string[] => {
+    const paths: string[] = [];
+    const throughDirectory = (directoryOrFile) => {
+        fs.readdirSync(directoryOrFile).forEach((File) => {
+            const absolute = path.join(directoryOrFile, File);
+            if (fs.statSync(absolute).isDirectory())
+                return throughDirectory(absolute);
+            else return paths.push(absolute);
+        });
+    };
 
-  const paths: string[] = [];
-  const throughDirectory = (directoryOrFile) => {
-    fs.readdirSync(directoryOrFile).forEach(File => {
-        const absolute = path.join(directoryOrFile, File);
-        if (fs.statSync(absolute).isDirectory()) return throughDirectory(absolute);
-        else return paths.push(absolute);
-    });
-  }
-  
-  throughDirectory(directory);
+    throughDirectory(directory);
 
-  return paths;
-}
+    return paths;
+};
 
 export default defineConfig({
     server: {
         hmr: {
-            host: 'localhost',
+            host: "localhost",
         },
         port: 3000,
-        host: 'workspace',
+        host: "workspace",
     },
     plugins: [
         laravel({
-            input: getAllFiles('resources/js/controllers'),
+            input: getAllFiles("resources/js/controllers"),
             refresh: true,
         }),
         vue({
-            isProduction: true,
+            // isProduction: false,
         }),
     ],
     resolve: {
         alias: {
-            '@': '/resources/js',
+            "@": "/resources/js",
         },
     },
 });

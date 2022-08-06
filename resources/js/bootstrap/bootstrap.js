@@ -12,8 +12,8 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-import Vue from 'vue/dist/vue.js';
-Vue.config.productionTip = false;
+// import Vue from 'vue/dist/vue.js';
+// Vue.config.productionTip = false;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

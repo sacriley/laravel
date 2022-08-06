@@ -1,0 +1,17 @@
+# ignore packages
+vendor/
+node_modules/
+storage/npm-packages/package-manager/dist/
+storage/npm-packages/mix-manager/dist/
+
+# ignore libraries
+resources/js/libraries/
+
+# ignore automatically generated files
+composer.lock
+package-lock.json
+lerna.json
+public/
+
+# ignore cache files
+bootstrap/

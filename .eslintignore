@@ -1,0 +1,6 @@
+/public/
+/node_modules/
+/vendor/
+/resources/js/libraries/
+/bootstrap/
+/webpack.mix.js
