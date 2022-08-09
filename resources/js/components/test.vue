@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <span>{{ message }}</span>
-    </div>
+  <div>
+    <span>{{ message }}</span>
+  </div>
 </template>
 
 <script>
@@ -15,12 +15,12 @@
 //   mounted(): void {}
 // }
 export default {
-    name: 'Test',
-    data() {
-        return {
-            message: 'test2',
-        };
-    },
-    mounted() {},
+  name: 'Test',
+  data() {
+    return {
+      message: 'test2',
+    };
+  },
+  mounted() {},
 };
 </script>

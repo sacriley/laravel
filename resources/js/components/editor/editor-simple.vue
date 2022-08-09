@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div>
+  <div class="editor">
+    <div class="menu">
       <button
-        :class="{ 'is-active': editor.isActive('bold') }"
+        :class="{ 'is-active': editor?.isActive('bold') }"
         @click="editor.chain().focus().toggleBold().run()"
       >
-        粗體
+        <FontAwesomeIcon icon="bold" />
       </button>
     </div>
     <EditorContent :editor="editor" />

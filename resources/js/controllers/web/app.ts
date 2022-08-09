@@ -6,9 +6,9 @@ import EditorSimple from '@/components/editor/editor-simple.vue';
 import Vue from 'vue/dist/vue.js';
 
 const testVue = new Vue({
-    el: '.test',
-    components: {
-        EditorSimple,
-        // Test
-    },
+  el: '.test',
+  components: {
+    EditorSimple,
+    // Test
+  },
 });
