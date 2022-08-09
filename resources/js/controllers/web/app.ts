@@ -3,7 +3,7 @@ import '@/bootstrap/bootstrap';
 // import '@/scss/app.scss';
 import EditorSimple from '@/components/editor/editor-simple.vue';
 // import Test from '@/components/test.vue';
-import Vue from 'vue/dist/vue.js';
+import Vue from 'vue';
 
 const testVue = new Vue({
   el: '.test',
@@ -11,4 +11,5 @@ const testVue = new Vue({
     EditorSimple,
     // Test
   },
+  render: (h) => h(EditorSimple),
 });

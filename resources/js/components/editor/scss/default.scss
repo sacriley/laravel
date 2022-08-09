@@ -3,6 +3,8 @@ $color-blue: #027de5;
 .editor {
   border: 1px solid #ddd;
   .menu {
+    display: flex;
+    flex-wrap: wrap;
     background: #fafafa;
     border-bottom: 1px solid #ddd;
     padding: 5px;
@@ -15,7 +17,7 @@ $color-blue: #027de5;
       height: 25px;
       width: 25px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.2s;
       transition-property: outline, background;
       outline: 2px solid rgba(0, 0, 0, 0);
       &:hover {
@@ -30,7 +32,7 @@ $color-blue: #027de5;
     }
   }
   .ProseMirror {
-    padding: 5px;
+    padding: 0 10px;
     position: relative;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -38,7 +40,6 @@ $color-blue: #027de5;
     -webkit-font-variant-ligatures: none;
     font-variant-ligatures: none;
     font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
-    line-height: 80%;
     &.ProseMirror-focused:focus-visible {
       outline: none;
     }
@@ -48,8 +49,32 @@ $color-blue: #027de5;
     &[contenteditable='false'] [contenteditable='true'] {
       white-space: pre-wrap;
     }
+    code {
+      background: #e3e3e3;
+      padding: 2px;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin: 0 2px;
+    }
+    blockquote {
+      border-left: 5px solid #ddd;
+      margin-left: 0;
+      padding-left: 1rem;
+    }
     pre {
+      color: #fff;
       white-space: pre-wrap;
+      background: #0d0d0d;
+      padding: 15px;
+      border-radius: 5px;
+      code {
+        background: none;
+        padding: 0;
+        border-radius: none;
+        font-size: 0.8rem;
+        margin: 0;
+        line-height: 1.4rem;
+      }
     }
     img.ProseMirror-separator {
       display: inline !important;

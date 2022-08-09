@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.js';
+import Vue from 'vue';
 import axios from 'axios';
 import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -19,6 +19,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // import Vue from 'vue/dist/vue.js';
 Vue.config.productionTip = false;
+Vue.config.unwrapInjectedRef = true;
 library.add(fas);
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 
