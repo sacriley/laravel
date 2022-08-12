@@ -1,5 +1,5 @@
 <template>
-  <button @click="editor.chain().focus().unsetAllMarks().run()">
+  <button @click="editor.chain().focus().unsetAllMarks().clearNodes().run()">
     <FontAwesomeIcon icon="ban" />
   </button>
 </template>

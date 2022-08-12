@@ -10,7 +10,7 @@
       <BlockQuote />
       <CodeBlock />
       <HorizontalRule />
-      <ClearMarksButton />
+      <ClearButton />
     </div>
     <EditorContent :editor="editor" />
   </div>
@@ -21,7 +21,7 @@ import { reactive, computed } from 'vue';
 import { Editor, EditorContent } from '@tiptap/vue-2';
 import BoldButton from '@/components/editor/buttons/bold.vue';
 import StrikeButton from '@/components/editor/buttons/strike.vue';
-import ClearMarksButton from '@/components/editor/buttons/clear-marks.vue';
+import ClearButton from '@/components/editor/buttons/clear.vue';
 import CodeButton from '@/components/editor/buttons/code.vue';
 import ItalicButton from '@/components/editor/buttons/italic.vue';
 import BlockQuote from '@/components/editor/buttons/block-quote.vue';
@@ -36,7 +36,7 @@ export default {
   components: {
     EditorContent,
     BoldButton,
-    ClearMarksButton,
+    ClearButton,
     CodeButton,
     ItalicButton,
     StrikeButton,
