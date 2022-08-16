@@ -1,6 +1,12 @@
 <template>
   <div class="paragraph-toggle-button">
-    <button @click="toggleParagraphPanel">
+    <button
+      :class="{
+        'toggle-button': true,
+        'fade-out': displayText === textItems.none,
+      }"
+      @click="togglePanel"
+    >
       {{ displayText }}
       <FontAwesomeIcon icon="caret-down" />
     </button>
@@ -17,7 +23,7 @@
         }"
         @click="
           editor.chain().focus().toggleHeading({ level: 1 }).run() &&
-            changeDisplayText(1)
+            closePanel()
         "
       >
         {{ textItems.h1 }}
@@ -29,7 +35,7 @@
         }"
         @click="
           editor.chain().focus().toggleHeading({ level: 2 }).run() &&
-            changeDisplayText(2)
+            closePanel()
         "
       >
         {{ textItems.h2 }}
@@ -41,7 +47,7 @@
         }"
         @click="
           editor.chain().focus().toggleHeading({ level: 3 }).run() &&
-            changeDisplayText(3)
+            closePanel()
         "
       >
         {{ textItems.h3 }}
@@ -51,9 +57,7 @@
           'paragraph-button': true,
           'is-active': editor.isActive('paragraph'),
         }"
-        @click="
-          editor.chain().focus().setParagraph().run() && changeDisplayText()
-        "
+        @click="editor.chain().focus().setParagraph().run() && closePanel()"
       >
         {{ textItems.paragraph }}
       </button>
@@ -62,46 +66,54 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, computed, inject } from 'vue';
 
 export default {
-  inject: ['editor'],
   setup() {
     const textItems = {
       paragraph: '文字段落',
       h1: '標題 H1',
       h2: '標題 H2',
       h3: '標題 H3',
+      none: '多個段落',
     };
+
+    const editor: any = inject('editor');
 
     const isOpen = ref(false);
 
-    const displayText = ref(textItems.paragraph);
+    const displayText = computed(() => {
+      let text: string;
 
-    const toggleParagraphPanel = () => {
+      if (editor.value.isActive('paragraph')) {
+        text = textItems.paragraph;
+      }
+
+      if (editor.value.isActive('heading', { level: 1 })) {
+        text = textItems.h1;
+      }
+
+      if (editor.value.isActive('heading', { level: 2 })) {
+        text = textItems.h2;
+      }
+
+      if (editor.value.isActive('heading', { level: 3 })) {
+        text = textItems.h3;
+      }
+
+      if (text === undefined) {
+        text = textItems.none;
+      }
+
+      return text;
+    });
+
+    const togglePanel = () => {
       isOpen.value = !isOpen.value;
     };
 
-    const closeParagraphPanel = () => {
+    const closePanel = () => {
       isOpen.value = false;
-    };
-
-    const changeDisplayText = (level: number = 0) => {
-      switch (level) {
-        case 1:
-          displayText.value = textItems.h1;
-          break;
-        case 2:
-          displayText.value = textItems.h2;
-          break;
-        case 3:
-          displayText.value = textItems.h3;
-          break;
-        default:
-          displayText.value = textItems.paragraph;
-          break;
-      }
-      closeParagraphPanel();
     };
 
     document.addEventListener('click', (event: any) => {
@@ -109,17 +121,17 @@ export default {
         isOpen.value &&
         !event.path.includes(document.querySelector('.paragraph-toggle-button'))
       ) {
-        closeParagraphPanel();
+        closePanel();
       }
     });
 
     return {
+      editor,
       isOpen,
       displayText,
       textItems,
-      changeDisplayText,
-      toggleParagraphPanel,
-      closeParagraphPanel,
+      closePanel,
+      togglePanel,
     };
   },
 };
@@ -139,6 +151,11 @@ $color-blue: #027de5;
         height: 20px;
       }
     }
+    .toggle-button {
+      &.fade-out {
+        color: #999;
+      }
+    }
     .paragraph-panel {
       position: absolute;
       display: none;
@@ -156,6 +173,9 @@ $color-blue: #027de5;
         margin-right: 0;
         &:last-child {
           margin-bottom: 0;
+        }
+        &:hover {
+          background: #ddd;
         }
         &.is-active {
           background: $color-blue;

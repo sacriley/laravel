@@ -2,9 +2,11 @@
   <div class="editor">
     <div class="menu">
       <ParagraphButton />
+      <TextAlignButton />
       <BoldButton />
       <ItalicButton />
       <StrikeButton />
+      <UnderlineButton />
       <CodeButton />
       <BulletList />
       <OrderedList />
@@ -31,7 +33,12 @@ import CodeBlock from '@/components/editor/buttons/code-block.vue';
 import HorizontalRule from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedList from '@/components/editor/buttons/ordered-list.vue';
 import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
+import TextAlignButton from '@/components/editor/buttons/text-align.vue';
+import UnderlineButton from '@/components/editor/buttons/underline.vue';
+import TextAlign from '@tiptap/extension-text-align';
 import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Placeholder from '@tiptap/extension-placeholder';
 import '@/components/editor/scss/default.scss';
 
 export default {
@@ -43,6 +50,8 @@ export default {
     ItalicButton,
     StrikeButton,
     ParagraphButton,
+    TextAlignButton,
+    UnderlineButton,
     BlockQuote,
     BulletList,
     CodeBlock,
@@ -55,10 +64,20 @@ export default {
     };
   },
   setup() {
-    const editor: any = reactive(
+    const editor = reactive(
       new Editor({
-        content: '<p>I’m running Tiptap with Vue.js</p>',
-        extensions: [StarterKit],
+        content:
+          '<h3>I’m running Tiptap with Vue.js</h3><p>I’m running Tiptap with Vue.js</p>',
+        extensions: [
+          StarterKit,
+          Underline,
+          TextAlign.configure({
+            types: ['heading', 'paragraph'],
+          }),
+          Placeholder.configure({
+            placeholder: '請輸入內容 ...',
+          }),
+        ],
       }),
     );
 
