@@ -6,6 +6,7 @@
       <BoldButton />
       <ItalicButton />
       <StrikeButton />
+      <LinkButton />
       <UnderlineButton />
       <CodeButton />
       <BulletList />
@@ -34,11 +35,13 @@ import HorizontalRule from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedList from '@/components/editor/buttons/ordered-list.vue';
 import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
 import TextAlignButton from '@/components/editor/buttons/text-align.vue';
+import LinkButton from '@/components/editor/buttons/link.vue';
 import UnderlineButton from '@/components/editor/buttons/underline.vue';
 import TextAlign from '@tiptap/extension-text-align';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
+import Link from '@tiptap/extension-link';
 import '@/components/editor/scss/default.scss';
 
 export default {
@@ -51,6 +54,7 @@ export default {
     StrikeButton,
     ParagraphButton,
     TextAlignButton,
+    LinkButton,
     UnderlineButton,
     BlockQuote,
     BulletList,
@@ -71,6 +75,9 @@ export default {
         extensions: [
           StarterKit,
           Underline,
+          Link.configure({
+            openOnClick: false,
+          }),
           TextAlign.configure({
             types: ['heading', 'paragraph'],
           }),
