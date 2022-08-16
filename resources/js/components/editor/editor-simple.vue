@@ -1,6 +1,7 @@
 <template>
   <div class="editor">
     <div class="menu">
+      <ParagraphButton />
       <BoldButton />
       <ItalicButton />
       <StrikeButton />
@@ -29,6 +30,7 @@ import BulletList from '@/components/editor/buttons/bullet-list.vue';
 import CodeBlock from '@/components/editor/buttons/code-block.vue';
 import HorizontalRule from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedList from '@/components/editor/buttons/ordered-list.vue';
+import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
 import StarterKit from '@tiptap/starter-kit';
 import '@/components/editor/scss/default.scss';
 
@@ -40,6 +42,7 @@ export default {
     CodeButton,
     ItalicButton,
     StrikeButton,
+    ParagraphButton,
     BlockQuote,
     BulletList,
     CodeBlock,

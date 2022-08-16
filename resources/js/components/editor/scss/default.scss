@@ -8,6 +8,9 @@ $color-blue: #027de5;
     background: #fafafa;
     border-bottom: 1px solid #ddd;
     padding: 5px;
+    .button-group {
+      display: flex;
+    }
     button {
       display: block;
       background: #fafafa;
@@ -35,7 +38,6 @@ $color-blue: #027de5;
     padding: 0 10px;
     position: relative;
     word-wrap: break-word;
-    white-space: pre-wrap;
     white-space: break-spaces;
     -webkit-font-variant-ligatures: none;
     font-variant-ligatures: none;
@@ -70,7 +72,7 @@ $color-blue: #027de5;
       code {
         background: none;
         padding: 0;
-        border-radius: none;
+        border-radius: 0;
         font-size: 0.8rem;
         margin: 0;
         line-height: 1.4rem;
