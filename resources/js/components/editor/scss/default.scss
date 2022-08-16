@@ -13,7 +13,7 @@ $color-blue: #027de5;
     }
     button {
       display: block;
-      background: #fafafa;
+      background: none;
       border: none;
       border-radius: 3px;
       margin-right: 5px;
@@ -42,6 +42,9 @@ $color-blue: #027de5;
     -webkit-font-variant-ligatures: none;
     font-variant-ligatures: none;
     font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
+    > * + * {
+      margin-top: 0.75em;
+    }
     &.ProseMirror-focused:focus-visible {
       outline: none;
     }
@@ -50,6 +53,13 @@ $color-blue: #027de5;
     }
     &[contenteditable='false'] [contenteditable='true'] {
       white-space: pre-wrap;
+    }
+    p.is-editor-empty:first-child::before {
+      content: attr(data-placeholder);
+      float: left;
+      color: #adb5bd;
+      pointer-events: none;
+      height: 0;
     }
     code {
       background: #e3e3e3;
