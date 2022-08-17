@@ -2,17 +2,20 @@
   <div class="editor">
     <div class="menu">
       <ParagraphButton />
-      <TextAlignButton />
       <BoldButton />
       <ItalicButton />
       <StrikeButton />
-      <LinkButton />
       <UnderlineButton />
       <CodeButton />
+      <Separator />
+      <LinkButton />
+      <Separator />
+      <TextAlignButton />
       <BulletList />
       <OrderedList />
       <BlockQuote />
       <CodeBlock />
+      <Separator />
       <HorizontalRule />
       <ClearButton />
     </div>
@@ -37,11 +40,14 @@ import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
 import TextAlignButton from '@/components/editor/buttons/text-align.vue';
 import LinkButton from '@/components/editor/buttons/link.vue';
 import UnderlineButton from '@/components/editor/buttons/underline.vue';
+import Separator from '@/components/editor/menu/separator.vue';
 import TextAlign from '@tiptap/extension-text-align';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
+import Focus from '@tiptap/extension-focus';
+// import BubbleMenu from '@tiptap/extension-bubble-menu';
 import '@/components/editor/scss/default.scss';
 
 export default {
@@ -56,6 +62,7 @@ export default {
     TextAlignButton,
     LinkButton,
     UnderlineButton,
+    Separator,
     BlockQuote,
     BulletList,
     CodeBlock,
@@ -71,10 +78,22 @@ export default {
     const editor = reactive(
       new Editor({
         content:
-          '<h3>I’m running Tiptap with Vue.js</h3><p>I’m running Tiptap with Vue.js</p>',
+          '<h3>I’m running Tiptap with Vue.js</h3><p>I’m running <a href="http://fanswoo.com">Tiptap</a> with Vue.js</p>',
         extensions: [
           StarterKit,
           Underline,
+          // BubbleMenu.configure({
+          //   shouldShow: (arg) => {
+          //     const isActive = arg.editor.isActive('link');
+          //     console.log(isActive);
+          //
+          //     return isActive;
+          //   },
+          // }),
+          Focus.configure({
+            className: 'has-focus',
+            mode: 'all',
+          }),
           Link.configure({
             openOnClick: false,
           }),

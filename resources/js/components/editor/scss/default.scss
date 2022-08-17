@@ -33,6 +33,12 @@ $color-blue: #027de5;
         outline: 2px solid $color-blue;
       }
     }
+    .separator {
+      width: 1px;
+      background: #ddd;
+      margin-right: 5px;
+      height: 25px;
+    }
   }
   .ProseMirror {
     padding: 0 10px;

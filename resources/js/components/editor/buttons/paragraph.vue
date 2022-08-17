@@ -21,6 +21,7 @@
           'paragraph-button': true,
           'is-active': editor.isActive('heading', { level: 1 }),
         }"
+        :style="{ 'font-weight': 900 }"
         @click="
           editor.chain().focus().toggleHeading({ level: 1 }).run() &&
             closePanel()
@@ -33,6 +34,7 @@
           'paragraph-button': true,
           'is-active': editor.isActive('heading', { level: 2 }),
         }"
+        :style="{ 'font-weight': 800 }"
         @click="
           editor.chain().focus().toggleHeading({ level: 2 }).run() &&
             closePanel()
@@ -45,6 +47,7 @@
           'paragraph-button': true,
           'is-active': editor.isActive('heading', { level: 3 }),
         }"
+        :style="{ 'font-weight': 700 }"
         @click="
           editor.chain().focus().toggleHeading({ level: 3 }).run() &&
             closePanel()
@@ -55,8 +58,48 @@
       <button
         :class="{
           'paragraph-button': true,
+          'is-active': editor.isActive('heading', { level: 4 }),
+        }"
+        :style="{ 'font-weight': 600 }"
+        @click="
+          editor.chain().focus().toggleHeading({ level: 4 }).run() &&
+            closePanel()
+        "
+      >
+        {{ textItems.h4 }}
+      </button>
+      <button
+        :class="{
+          'paragraph-button': true,
+          'is-active': editor.isActive('heading', { level: 5 }),
+        }"
+        :style="{ 'font-weight': 500 }"
+        @click="
+          editor.chain().focus().toggleHeading({ level: 5 }).run() &&
+            closePanel()
+        "
+      >
+        {{ textItems.h5 }}
+      </button>
+      <button
+        :class="{
+          'paragraph-button': true,
+          'is-active': editor.isActive('heading', { level: 6 }),
+        }"
+        :style="{ 'font-weight': 400 }"
+        @click="
+          editor.chain().focus().toggleHeading({ level: 6 }).run() &&
+            closePanel()
+        "
+      >
+        {{ textItems.h6 }}
+      </button>
+      <button
+        :class="{
+          'paragraph-button': true,
           'is-active': editor.isActive('paragraph'),
         }"
+        :style="{ 'font-weight': 300 }"
         @click="editor.chain().focus().setParagraph().run() && closePanel()"
       >
         {{ textItems.paragraph }}
@@ -75,6 +118,9 @@ export default {
       h1: '標題 H1',
       h2: '標題 H2',
       h3: '標題 H3',
+      h4: '標題 H4',
+      h5: '標題 H5',
+      h6: '標題 H6',
       none: '多個段落',
     };
 
@@ -99,6 +145,18 @@ export default {
 
       if (editor.value.isActive('heading', { level: 3 })) {
         text = textItems.h3;
+      }
+
+      if (editor.value.isActive('heading', { level: 4 })) {
+        text = textItems.h4;
+      }
+
+      if (editor.value.isActive('heading', { level: 5 })) {
+        text = textItems.h5;
+      }
+
+      if (editor.value.isActive('heading', { level: 6 })) {
+        text = textItems.h6;
       }
 
       if (text === undefined) {
