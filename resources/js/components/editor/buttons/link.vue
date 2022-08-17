@@ -17,11 +17,11 @@
         type="text"
         :value="editor.getAttributes('link').href"
       />
-      <button
-        :class="{ 'is-active': editor.isActive('strike') }"
-        @click="changeLink"
-      >
+      <button @click="changeLink">
         <FontAwesomeIcon icon="check" />
+      </button>
+      <button @click="openNewLink">
+        <FontAwesomeIcon icon="external-link-alt" />
       </button>
       <button
         @click="
@@ -94,6 +94,13 @@ export default {
     //   editor.value.chain().focus().setLink({ href: url }).run();
     // };
 
+    const openNewLink = () => {
+      const url = editor.value.getAttributes('link').href;
+      if (url) {
+        window.open(url, '_blank');
+      }
+    };
+
     const changeLink = async () => {
       const url = (inputLink.value as HTMLInputElement).value;
 
@@ -109,6 +116,7 @@ export default {
       editor,
       selectedText,
       inputLink,
+      openNewLink,
       addLink,
       changeLink,
       getSelectedText,
