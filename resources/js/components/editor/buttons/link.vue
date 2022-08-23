@@ -15,6 +15,7 @@
       <input
         ref="inputLink"
         type="text"
+        placeholder="http://"
         :value="editor.getAttributes('link').href"
       />
       <button @click="changeLink">
@@ -102,14 +103,19 @@ export default {
     };
 
     const changeLink = async () => {
-      const url = (inputLink.value as HTMLInputElement).value;
+      let url = (inputLink.value as HTMLInputElement).value;
 
-      if (url === null) {
+      if (!url.includes('http://', 0) || !url.includes('https://', 0)) {
+        url = `http://${url}`;
+      }
+
+      if (url === '') {
         editor.value.chain().focus().extendMarkRange('link').unsetLink()!.run();
         return;
       }
 
       editor.value.chain().focus().setLink({ href: url }).run();
+      editor.value.commands.blur();
     };
 
     return {
