@@ -13,6 +13,7 @@
       <TextAlignButton />
       <BulletList />
       <OrderedList />
+      <TaskList />
       <BlockQuote />
       <CodeBlock />
       <Separator />
@@ -40,6 +41,7 @@ import BulletList from '@/components/editor/buttons/bullet-list.vue';
 import CodeBlock from '@/components/editor/buttons/code-block.vue';
 import HorizontalRule from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedList from '@/components/editor/buttons/ordered-list.vue';
+import TaskList from '@/components/editor/buttons/task-list.vue';
 import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
 import TextAlignButton from '@/components/editor/buttons/text-align.vue';
 import LinkButton from '@/components/editor/buttons/link.vue';
@@ -60,9 +62,11 @@ export default {
     UnderlineButton,
     BlockQuote,
     BulletList,
+    TaskList,
     CodeBlock,
     HorizontalRule,
     OrderedList,
+    TaskList,
     Separator,
   },
   provide() {

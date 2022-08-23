@@ -4,6 +4,8 @@ import TextAlign, { TextAlignOptions } from '@tiptap/extension-text-align';
 import Placeholder, { PlaceholderOptions } from '@tiptap/extension-placeholder';
 import Link, { LinkOptions } from '@tiptap/extension-link';
 import Focus, { FocusOptions } from '@tiptap/extension-focus';
+import TaskItem, { TaskItemOptions } from '@tiptap/extension-task-item';
+import TaskList, { TaskListOptions } from '@tiptap/extension-task-list';
 
 export interface AdditionalKitOptions {
   underline: Partial<UnderlineOptions> | false;
@@ -11,6 +13,8 @@ export interface AdditionalKitOptions {
   link: Partial<LinkOptions> | false;
   textAlign: Partial<TextAlignOptions> | false;
   placeholder: Partial<PlaceholderOptions> | false;
+  taskList: Partial<TaskListOptions> | false;
+  taskItem: Partial<TaskItemOptions> | false;
 }
 
 const AdditionalKit = Extension.create<AdditionalKitOptions>({
@@ -67,6 +71,32 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
         extensions.push(
           Placeholder.configure({
             placeholder: '請輸入內容 ...',
+          }),
+        );
+      }
+    }
+
+    if (this.options.taskList !== false) {
+      if (this.options?.taskItem) {
+        extensions.push(TaskList.configure(this.options?.taskList));
+      } else {
+        extensions.push(
+          TaskList.configure({
+            // HTMLAttributes: {
+            //   class: 'task-list',
+            // },
+          }),
+        );
+      }
+    }
+
+    if (this.options.taskItem !== false) {
+      if (this.options?.taskItem) {
+        extensions.push(TaskItem.configure(this.options?.taskItem));
+      } else {
+        extensions.push(
+          TaskItem.configure({
+            nested: true,
           }),
         );
       }
