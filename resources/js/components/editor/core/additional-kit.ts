@@ -6,6 +6,16 @@ import Link, { LinkOptions } from '@tiptap/extension-link';
 import Focus, { FocusOptions } from '@tiptap/extension-focus';
 import TaskItem, { TaskItemOptions } from '@tiptap/extension-task-item';
 import TaskList, { TaskListOptions } from '@tiptap/extension-task-list';
+import TextStyle, { TextStyleOptions } from '@tiptap/extension-text-style';
+import { Color, ColorOptions } from '@tiptap/extension-color';
+import {
+  Highlight,
+  HighlightOptions,
+} from '@/components/editor/extentions/highlight';
+import {
+  FontSize,
+  FontSizeOptions,
+} from '@/components/editor/extentions/font-size';
 
 export interface AdditionalKitOptions {
   underline: Partial<UnderlineOptions> | false;
@@ -15,6 +25,10 @@ export interface AdditionalKitOptions {
   placeholder: Partial<PlaceholderOptions> | false;
   taskList: Partial<TaskListOptions> | false;
   taskItem: Partial<TaskItemOptions> | false;
+  textStyle: Partial<TextStyleOptions> | false;
+  color: Partial<ColorOptions> | false;
+  highlight: Partial<HighlightOptions> | false;
+  fontSize: Partial<FontSizeOptions> | false;
 }
 
 const AdditionalKit = Extension.create<AdditionalKitOptions>({
@@ -97,6 +111,46 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
         extensions.push(
           TaskItem.configure({
             nested: true,
+          }),
+        );
+      }
+    }
+
+    if (this.options.textStyle !== false) {
+      extensions.push(TextStyle.configure(this.options?.textStyle));
+    }
+
+    if (this.options.color !== false) {
+      if (this.options?.color) {
+        extensions.push(Color.configure(this.options?.color));
+      } else {
+        extensions.push(
+          Color.configure({
+            types: ['textStyle'],
+          }),
+        );
+      }
+    }
+
+    if (this.options.highlight !== false) {
+      if (this.options?.highlight) {
+        extensions.push(Highlight.configure(this.options?.highlight));
+      } else {
+        extensions.push(
+          Highlight.configure({
+            types: ['textStyle'],
+          }),
+        );
+      }
+    }
+
+    if (this.options.fontSize !== false) {
+      if (this.options?.fontSize) {
+        extensions.push(FontSize.configure(this.options?.fontSize));
+      } else {
+        extensions.push(
+          FontSize.configure({
+            types: ['textStyle'],
           }),
         );
       }
