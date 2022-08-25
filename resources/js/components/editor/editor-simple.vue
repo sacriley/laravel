@@ -12,15 +12,15 @@
       <UnderlineButton />
       <CodeButton />
       <Separator />
-      <LinkButton />
-      <Separator />
       <TextAlignButton />
       <BulletListButton />
       <OrderedListButton />
       <TaskListButton />
+      <Separator />
+      <LinkButton />
       <BlockQuoteButton />
       <CodeBlockButton />
-      <Separator />
+      <YoutubeButton />
       <HorizontalRuleButton />
       <ClearButton />
     </div>
@@ -53,6 +53,7 @@ import CodeBlockButton from '@/components/editor/buttons/code-block.vue';
 import HorizontalRuleButton from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedListButton from '@/components/editor/buttons/ordered-list.vue';
 import TaskListButton from '@/components/editor/buttons/task-list.vue';
+import YoutubeButton from '@/components/editor/buttons/youtube.vue';
 import Separator from '@/components/editor/menu/separator.vue';
 
 export default {
@@ -76,6 +77,7 @@ export default {
     CodeBlockButton,
     HorizontalRuleButton,
     OrderedListButton,
+    YoutubeButton,
     Separator,
   },
   provide() {

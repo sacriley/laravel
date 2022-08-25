@@ -11,7 +11,7 @@
     >
       <button
         :class="{
-          'unset-highlight-button': true,
+          'unset-color-button': true,
         }"
         @click="editor.chain().focus().unsetHighlight().run() && closePanel()"
       >
@@ -19,7 +19,7 @@
       </button>
       <input
         :class="{
-          'unset-highlight-button': true,
+          'select-color-button': true,
         }"
         type="color"
         @input="editor.chain().focus().setHighlight($event.target.value).run()"
@@ -68,22 +68,18 @@ export default {
         text: '黑色',
       },
       {
-        color: '#333333',
+        color: '#444444',
         hasWhiteTick: true,
         text: '深灰色',
       },
       {
-        color: '#666666',
+        color: '#777777',
         hasWhiteTick: true,
-        text: '���色',
+        text: '灰色',
       },
       {
-        color: '#999999',
+        color: '#AAAAAA',
         text: '淺灰色',
-      },
-      {
-        color: '#CCCCCC',
-        text: '亮灰色',
       },
       {
         color: '#FFFFFF',
@@ -91,29 +87,67 @@ export default {
         text: '白色',
       },
       {
-        color: '#ff0000',
+        color: '#C42553',
+        text: '深紅色',
+      },
+      {
+        color: '#E18929',
+        text: '深橘色',
+      },
+      {
+        color: '#7BA345',
+        hasWhiteTick: true,
+        text: '深綠色',
+      },
+      {
+        color: '#156EA6',
+        text: '深藍色',
+      },
+      {
+        color: '#5B297F',
+        text: '深紫色',
+      },
+      {
+        color: '#C66792',
         text: '紅色',
       },
       {
-        color: '#00ff00',
+        color: '#D0A06F',
+        text: '橘色',
+      },
+      {
+        color: '#8ca866',
+        hasWhiteTick: true,
         text: '綠色',
       },
       {
-        color: '#0000ff',
-        hasWhiteTick: true,
+        color: '#469DC1',
         text: '藍色',
       },
       {
-        color: '#ffff00',
-        text: '黃色',
-      },
-      {
-        color: '#ff00ff',
+        color: '#8469A1',
         text: '紫色',
       },
       {
-        color: '#00ffff',
-        text: '青色',
+        color: '#D17CAA',
+        text: '粉紅色',
+      },
+      {
+        color: '#F4C8A4',
+        text: '粉橘色',
+      },
+      {
+        color: '#a0b089',
+        hasWhiteTick: true,
+        text: '粉綠色',
+      },
+      {
+        color: '#5CB7CC',
+        text: '粉藍色',
+      },
+      {
+        color: '#B4A3CE',
+        text: '粉紫色',
       },
     ];
 
@@ -161,18 +195,23 @@ $color-blue: #027de5;
       margin-top: 2px;
       padding: 5px 0 5px 5px;
       flex-wrap: wrap;
-      width: 150px;
+      width: 130px;
       &.is-open {
         display: flex;
       }
       button {
         margin-bottom: 5px;
       }
-      .unset-highlight-button,
-      .select-highlight-button {
-        width: 70px;
+      .unset-color-button,
+      .select-color-button {
         height: 25px;
         cursor: pointer;
+      }
+      .unset-color-button {
+        width: 60px;
+      }
+      .select-color-button {
+        width: 55px;
       }
       .highlight-button {
         width: 20px;

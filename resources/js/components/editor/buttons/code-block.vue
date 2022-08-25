@@ -3,7 +3,7 @@
     :class="{ 'is-active': editor?.isActive('codeBlock') }"
     @click="editor.chain().focus().toggleCodeBlock().run()"
   >
-    <FontAwesomeIcon icon="file-code" />
+    <FontAwesomeIcon icon="window-maximize" />
   </button>
 </template>
 
