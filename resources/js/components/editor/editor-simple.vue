@@ -18,10 +18,13 @@
       <TaskListButton />
       <Separator />
       <LinkButton />
+      <ImageButton />
+      <TableButton />
       <BlockQuoteButton />
       <CodeBlockButton />
+      <Separator />
       <YoutubeButton />
-      <HorizontalRuleButton />
+      <EmbedButton />
       <ClearButton />
     </div>
     <EditorContent :editor="editor" />
@@ -46,14 +49,16 @@ import ItalicButton from '@/components/editor/buttons/italic.vue';
 import ParagraphButton from '@/components/editor/buttons/paragraph.vue';
 import TextAlignButton from '@/components/editor/buttons/text-align.vue';
 import LinkButton from '@/components/editor/buttons/link.vue';
+import ImageButton from '@/components/editor/buttons/image.vue';
 import UnderlineButton from '@/components/editor/buttons/underline.vue';
 import BlockQuoteButton from '@/components/editor/buttons/block-quote.vue';
 import BulletListButton from '@/components/editor/buttons/bullet-list.vue';
 import CodeBlockButton from '@/components/editor/buttons/code-block.vue';
-import HorizontalRuleButton from '@/components/editor/buttons/horizontal-rule.vue';
 import OrderedListButton from '@/components/editor/buttons/ordered-list.vue';
 import TaskListButton from '@/components/editor/buttons/task-list.vue';
 import YoutubeButton from '@/components/editor/buttons/youtube.vue';
+import EmbedButton from '@/components/editor/buttons/embed.vue';
+import TableButton from '@/components/editor/buttons/table.vue';
 import Separator from '@/components/editor/menu/separator.vue';
 
 export default {
@@ -70,14 +75,16 @@ export default {
     ParagraphButton,
     TextAlignButton,
     LinkButton,
+    ImageButton,
     UnderlineButton,
     BlockQuoteButton,
     BulletListButton,
     TaskListButton,
+    TableButton,
     CodeBlockButton,
-    HorizontalRuleButton,
     OrderedListButton,
     YoutubeButton,
+    EmbedButton,
     Separator,
   },
   provide() {

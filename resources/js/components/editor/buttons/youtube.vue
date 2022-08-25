@@ -47,7 +47,8 @@ export default {
 
   div[data-youtube-video] {
     cursor: move;
-    padding-right: 24px;
+    padding: 6px;
+    overflow: hidden;
   }
 
   .ProseMirror-selectednode iframe {

@@ -17,6 +17,7 @@ import {
   FontSizeOptions,
 } from '@/components/editor/extentions/font-size';
 import Youtube, { YoutubeOptions } from '@tiptap/extension-youtube';
+import Embed, { EmbedOptions } from '@/components/editor/extentions/embed';
 
 export interface AdditionalKitOptions {
   underline: Partial<UnderlineOptions> | false;
@@ -31,6 +32,7 @@ export interface AdditionalKitOptions {
   highlight: Partial<HighlightOptions> | false;
   fontSize: Partial<FontSizeOptions> | false;
   youtube: Partial<YoutubeOptions> | false;
+  embed: Partial<EmbedOptions> | false;
 }
 
 const AdditionalKit = Extension.create<AdditionalKitOptions>({
@@ -160,6 +162,10 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
 
     if (this.options.youtube !== false) {
       extensions.push(Youtube.configure(this.options?.youtube));
+    }
+
+    if (this.options.embed !== false) {
+      extensions.push(Embed.configure(this.options?.embed));
     }
 
     return extensions;
