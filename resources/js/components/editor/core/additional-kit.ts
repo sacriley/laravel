@@ -18,6 +18,15 @@ import {
 } from '@/components/editor/extentions/font-size';
 import Youtube, { YoutubeOptions } from '@tiptap/extension-youtube';
 import Embed, { EmbedOptions } from '@/components/editor/extentions/embed';
+import Table, { TableOptions } from '@tiptap/extension-table';
+import { TableView } from '@/components/editor/extentions/table/table-view';
+// import { TableView } from '@tiptap/extension-table/src/TableView';
+import TableCell, { TableCellOptions } from '@tiptap/extension-table-cell';
+import TableHeader, {
+  TableHeaderOptions,
+} from '@tiptap/extension-table-header';
+import TableRow, { TableRowOptions } from '@tiptap/extension-table-row';
+// import BubbleMenu, { BubbleMenuOptions } from '@tiptap/extension-bubble-menu';
 
 export interface AdditionalKitOptions {
   underline: Partial<UnderlineOptions> | false;
@@ -33,6 +42,11 @@ export interface AdditionalKitOptions {
   fontSize: Partial<FontSizeOptions> | false;
   youtube: Partial<YoutubeOptions> | false;
   embed: Partial<EmbedOptions> | false;
+  table: Partial<TableOptions> | false;
+  tableCell: Partial<TableCellOptions> | false;
+  tableHeader: Partial<TableHeaderOptions> | false;
+  tableRow: Partial<TableRowOptions> | false;
+  // bubbleMenu: Partial<BubbleMenuOptions> | false;
 }
 
 const AdditionalKit = Extension.create<AdditionalKitOptions>({
@@ -167,6 +181,53 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
     if (this.options.embed !== false) {
       extensions.push(Embed.configure(this.options?.embed));
     }
+
+    if (this.options.table !== false) {
+      if (this.options?.table) {
+        extensions.push(Table.configure(this.options?.table));
+      } else {
+        extensions.push(
+          Table.configure({
+            resizable: true,
+            // @ts-ignore
+            // View: TableView,
+          }),
+        );
+      }
+    }
+
+    if (this.options.tableCell !== false) {
+      extensions.push(TableCell.configure(this.options?.tableCell));
+    }
+
+    if (this.options.tableHeader !== false) {
+      extensions.push(TableHeader.configure(this.options?.tableHeader));
+    }
+
+    if (this.options.tableRow !== false) {
+      extensions.push(TableRow.configure(this.options?.tableRow));
+    }
+
+    // if (this.options.bubbleMenu !== false) {
+    //   if (this.options?.bubbleMenu) {
+    //     extensions.push(BubbleMenu.configure(this.options?.bubbleMenu));
+    //   } else {
+    //     extensions.push(
+    //       BubbleMenu.configure({
+    //         shouldShow: ({ editor, view, state, oldState, from, to }) => {
+    //           // only show the bubble menu for images and links
+    //           console.log('hey');
+    //           console.log(view);
+    //           console.log(state);
+    //           console.log(oldState);
+    //           console.log(from);
+    //           console.log(to);
+    //           return editor.isActive('link');
+    //         },
+    //       }),
+    //     );
+    //   }
+    // }
 
     return extensions;
   },

@@ -23,7 +23,7 @@
         }"
         type="color"
         @input="editor.chain().focus().setColor($event.target.value).run()"
-        :value="editor.getAttributes('textStyle').color"
+        :value="editor.getAttributes('textStyle').color ?? '#000000'"
       />
       <button
         v-for="color in colors"

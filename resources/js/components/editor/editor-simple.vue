@@ -96,7 +96,9 @@ export default {
     const editor = reactive(
       new Editor({
         content:
-          '<h3>I’m running Tiptap with Vue.js</h3><p>I’m running <a href="http://fanswoo.com">Tiptap</a> with Vue.js</p>',
+          '<h3>I’m running Tiptap with Vue.js</h3>' +
+          '<p>I’m running <a href="http://fanswoo.com">Tiptap</a> with Vue.js</p>' +
+          '<div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th></tr><tr><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td></tr><tr><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>',
         extensions: [
           StarterKit,
           AdditionalKit.configure({

@@ -8,9 +8,10 @@
       <FontAwesomeIcon icon="link" />
     </button>
     <BubbleMenu
-      v-if="editor.isActive('link')"
+      :shouldShow="shouldShow"
       :class="{ 'link-panel': true }"
       :editor="editor"
+      pluginKey="link"
     >
       <input
         ref="inputLink"
@@ -24,11 +25,7 @@
       <button @click="openNewLink">
         <FontAwesomeIcon icon="external-link-alt" />
       </button>
-      <button
-        @click="
-          editor.chain().focus().extendMarkRange('link').unsetLink().run()
-        "
-      >
+      <button @click="editor.chain().focus().unsetLink().run()">
         <FontAwesomeIcon icon="unlink" />
       </button>
     </BubbleMenu>
@@ -37,7 +34,6 @@
 
 <script lang="ts">
 import { inject, ref, nextTick } from 'vue';
-// import tippy from 'tippy.js';
 import { BubbleMenu } from '@tiptap/vue-2';
 
 export default {
@@ -95,6 +91,11 @@ export default {
     //   editor.value.chain().focus().setLink({ href: url }).run();
     // };
 
+    const shouldShow = (arg) => {
+      const isActive = arg.editor.isActive('link');
+      return isActive;
+    };
+
     const openNewLink = () => {
       const url = editor.value.getAttributes('link').href;
       if (url) {
@@ -105,7 +106,7 @@ export default {
     const changeLink = async () => {
       let url = (inputLink.value as HTMLInputElement).value;
 
-      if (!url.includes('http://', 0) || !url.includes('https://', 0)) {
+      if (!url.includes('http://', 0) && !url.includes('https://', 0)) {
         url = `http://${url}`;
       }
 
@@ -114,14 +115,20 @@ export default {
         return;
       }
 
-      editor.value.chain().focus().setLink({ href: url }).run();
-      editor.value.commands.blur();
+      editor.value
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: url })
+        .run();
+      // editor.value.commands.blur();
     };
 
     return {
       editor,
       selectedText,
       inputLink,
+      shouldShow,
       openNewLink,
       addLink,
       changeLink,
