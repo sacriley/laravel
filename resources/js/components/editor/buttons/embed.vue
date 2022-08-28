@@ -1,11 +1,12 @@
 <template>
-  <button @click="addEmbed">
+  <button ref="embedButton" @click="addEmbed">
     <FontAwesomeIcon icon="globe-asia" />
   </button>
 </template>
 
 <script lang="ts">
-import { inject } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   inject: ['editor'],
@@ -20,8 +21,18 @@ export default {
       }
     };
 
+    const embedButton = ref(null);
+
+    onMounted(() => {
+      tippy(embedButton.value, {
+        content: '插入多媒體',
+        theme: 'tooltip',
+      });
+    });
+
     return {
       editor,
+      embedButton,
       addEmbed,
     };
   },

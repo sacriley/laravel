@@ -1,5 +1,6 @@
 <template>
   <button
+    ref="taskListButton"
     :class="{ 'is-active': editor?.isActive('taskList') }"
     @click="editor.chain().focus().toggleTaskList().run()"
   >
@@ -7,9 +8,26 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
+import { ref, onMounted } from 'vue';
+import tippy from 'tippy.js';
+
 export default {
   inject: ['editor'],
+  setup() {
+    const taskListButton = ref(null);
+
+    onMounted(() => {
+      tippy(taskListButton.value, {
+        content: '任務清單',
+        theme: 'tooltip',
+      });
+    });
+
+    return {
+      taskListButton,
+    };
+  },
 };
 </script>
 

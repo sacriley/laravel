@@ -1,6 +1,6 @@
 <template>
   <div class="font-size-toggle-button">
-    <button @click="togglePanel">
+    <button ref="textSizeButton" @click="togglePanel">
       <FontAwesomeIcon icon="text-height" />
     </button>
     <div
@@ -34,7 +34,8 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   inject: ['editor'],
@@ -44,6 +45,14 @@ export default {
     const isOpen = ref(false);
 
     const sizes = [12, 14, 16, 20, 24, 28, 32, 36, 48, 60, 72];
+    const textSizeButton = ref(null);
+
+    onMounted(() => {
+      tippy(textSizeButton.value, {
+        content: '文字大小',
+        theme: 'tooltip',
+      });
+    });
 
     const closePanel = () => {
       isOpen.value = false;
@@ -64,6 +73,7 @@ export default {
 
     return {
       sizes,
+      textSizeButton,
       togglePanel,
       closePanel,
       isOpen,

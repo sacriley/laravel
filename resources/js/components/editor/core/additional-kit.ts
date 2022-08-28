@@ -26,6 +26,7 @@ import TableHeader, {
   TableHeaderOptions,
 } from '@tiptap/extension-table-header';
 import TableRow, { TableRowOptions } from '@tiptap/extension-table-row';
+import Dropcursor, { DropcursorOptions } from '@tiptap/extension-dropcursor';
 // import BubbleMenu, { BubbleMenuOptions } from '@tiptap/extension-bubble-menu';
 
 export interface AdditionalKitOptions {
@@ -46,6 +47,7 @@ export interface AdditionalKitOptions {
   tableCell: Partial<TableCellOptions> | false;
   tableHeader: Partial<TableHeaderOptions> | false;
   tableRow: Partial<TableRowOptions> | false;
+  dropcursor: Partial<DropcursorOptions> | false;
   // bubbleMenu: Partial<BubbleMenuOptions> | false;
 }
 
@@ -206,6 +208,10 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
 
     if (this.options.tableRow !== false) {
       extensions.push(TableRow.configure(this.options?.tableRow));
+    }
+
+    if (this.options.dropcursor !== false) {
+      extensions.push(Dropcursor.configure(this.options?.dropcursor));
     }
 
     // if (this.options.bubbleMenu !== false) {

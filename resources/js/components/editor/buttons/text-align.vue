@@ -1,6 +1,6 @@
 <template>
   <div class="text-align-toggle-button">
-    <button @click="togglePanel">
+    <button ref="textAlignButton" @click="togglePanel">
       <FontAwesomeIcon :icon="displayIcon" />
     </button>
     <div
@@ -10,6 +10,7 @@
       }"
     >
       <button
+        ref="textAlignLeftButton"
         :class="{
           'text-align-button': true,
           'is-active': editor.isActive({ textAlign: 'left' }),
@@ -21,6 +22,7 @@
         <FontAwesomeIcon :icon="iconItems.left" />
       </button>
       <button
+        ref="textAlignCenterButton"
         :class="{
           'text-align-button': true,
           'is-active': editor.isActive({ textAlign: 'center' }),
@@ -32,6 +34,7 @@
         <FontAwesomeIcon :icon="iconItems.center" />
       </button>
       <button
+        ref="textAlignRightButton"
         :class="{
           'text-align-button': true,
           'is-active': editor.isActive({ textAlign: 'right' }),
@@ -43,6 +46,7 @@
         <FontAwesomeIcon :icon="iconItems.right" />
       </button>
       <button
+        ref="textAlignClearButton"
         :class="{
           'text-align-button': true,
         }"
@@ -55,7 +59,8 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   setup() {
@@ -65,6 +70,34 @@ export default {
       right: 'align-right',
       remove: 'ban',
     };
+    const textAlignButton = ref(null);
+    const textAlignLeftButton = ref(null);
+    const textAlignCenterButton = ref(null);
+    const textAlignRightButton = ref(null);
+    const textAlignClearButton = ref(null);
+
+    onMounted(() => {
+      tippy(textAlignButton.value, {
+        content: '文字對齊',
+        theme: 'tooltip',
+      });
+      tippy(textAlignLeftButton.value, {
+        content: '文字置左對齊',
+        theme: 'tooltip',
+      });
+      tippy(textAlignCenterButton.value, {
+        content: '文字置中對齊',
+        theme: 'tooltip',
+      });
+      tippy(textAlignRightButton.value, {
+        content: '文字置右對齊',
+        theme: 'tooltip',
+      });
+      tippy(textAlignClearButton.value, {
+        content: '清除文字對齊',
+        theme: 'tooltip',
+      });
+    });
 
     const editor: any = inject('editor');
 
@@ -112,6 +145,11 @@ export default {
       isOpen,
       displayIcon,
       iconItems,
+      textAlignButton,
+      textAlignLeftButton,
+      textAlignCenterButton,
+      textAlignRightButton,
+      textAlignClearButton,
       closePanel,
       togglePanel,
     };

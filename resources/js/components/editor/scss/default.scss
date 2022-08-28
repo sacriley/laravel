@@ -1,5 +1,15 @@
 $color-blue: #027de5;
 
+[data-tippy-root] {
+  .tippy-box[data-theme~='tooltip'] {
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 5px;
+    border-radius: 3px;
+  }
+}
+
 .editor {
   border: 1px solid #ddd;
   .menu {

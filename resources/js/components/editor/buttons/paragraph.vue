@@ -1,6 +1,7 @@
 <template>
   <div class="paragraph-toggle-button">
     <button
+      ref="paragraphButton"
       :class="{
         'toggle-button': true,
         'fade-out': displayText === textItems.none,
@@ -109,7 +110,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, inject } from 'vue';
+import { ref, computed, inject, onMounted } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   setup() {
@@ -123,6 +125,15 @@ export default {
       h6: '標題 H6',
       none: '多個段落',
     };
+
+    const paragraphButton = ref(null);
+
+    onMounted(() => {
+      tippy(paragraphButton.value, {
+        content: '段落',
+        theme: 'tooltip',
+      });
+    });
 
     const editor: any = inject('editor');
 
@@ -188,6 +199,7 @@ export default {
       isOpen,
       displayText,
       textItems,
+      paragraphButton,
       closePanel,
       togglePanel,
     };

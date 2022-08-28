@@ -1,11 +1,12 @@
 <template>
-  <button @click="addVideo">
+  <button ref="youtubeButton" @click="addVideo">
     <FontAwesomeIcon icon="video" />
   </button>
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   inject: ['editor'],
@@ -13,6 +14,14 @@ export default {
     const editor: any = inject('editor');
     const width = ref(640);
     const height = ref(480);
+    const youtubeButton = ref(null);
+
+    onMounted(() => {
+      tippy(youtubeButton.value, {
+        content: '插入 Youtube',
+        theme: 'tooltip',
+      });
+    });
 
     const addVideo = () => {
       const url = prompt('Enter YouTube URL');
@@ -29,6 +38,7 @@ export default {
       height,
       editor,
       addVideo,
+      youtubeButton,
     };
   },
 };

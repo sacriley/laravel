@@ -1,6 +1,7 @@
 <template>
   <div class="link-button-group">
     <button
+      ref="linkButton"
       :class="{ 'is-active': editor.isActive('link') }"
       :disabled="!editor.isActive('link') && getSelectedText() === ''"
       @click="addLink"
@@ -19,13 +20,16 @@
         placeholder="http://"
         :value="editor.getAttributes('link').href"
       />
-      <button @click="changeLink">
+      <button ref="checkButton" @click="changeLink">
         <FontAwesomeIcon icon="check" />
       </button>
-      <button @click="openNewLink">
+      <button ref="openNewLinkButton" @click="openNewLink">
         <FontAwesomeIcon icon="external-link-alt" />
       </button>
-      <button @click="editor.chain().focus().unsetLink().run()">
+      <button
+        ref="unlinkButton"
+        @click="editor.chain().focus().unsetLink().run()"
+      >
         <FontAwesomeIcon icon="unlink" />
       </button>
     </BubbleMenu>
@@ -33,8 +37,9 @@
 </template>
 
 <script lang="ts">
-import { inject, ref, nextTick } from 'vue';
+import { inject, ref, nextTick, onMounted } from 'vue';
 import { BubbleMenu } from '@tiptap/vue-2';
+import tippy from 'tippy.js';
 
 export default {
   components: {
@@ -42,6 +47,11 @@ export default {
   },
   setup() {
     const editor: any = inject('editor');
+
+    const linkButton = ref(null);
+    const unlinkButton = ref(null);
+    const checkButton = ref(null);
+    const openNewLinkButton = ref(null);
 
     const inputLink = ref(null);
 
@@ -80,17 +90,6 @@ export default {
         .run();
     };
 
-    // const setLink = async (event) => {
-    //   const url = event.target.value;
-    //
-    //   if (url === null) {
-    //     editor.value.chain().focus().extendMarkRange('link').unsetLink()!.run();
-    //     return;
-    //   }
-    //
-    //   editor.value.chain().focus().setLink({ href: url }).run();
-    // };
-
     const shouldShow = (arg) => {
       const isActive = arg.editor.isActive('link');
       return isActive;
@@ -124,8 +123,31 @@ export default {
       // editor.value.commands.blur();
     };
 
+    onMounted(() => {
+      tippy(linkButton.value, {
+        content: '超連結',
+        theme: 'tooltip',
+      });
+      tippy(unlinkButton.value, {
+        content: '取消連結',
+        theme: 'tooltip',
+      });
+      tippy(checkButton.value, {
+        content: '確認連結',
+        theme: 'tooltip',
+      });
+      tippy(openNewLinkButton.value, {
+        content: '開啟連結',
+        theme: 'tooltip',
+      });
+    });
+
     return {
       editor,
+      linkButton,
+      unlinkButton,
+      checkButton,
+      openNewLinkButton,
       selectedText,
       inputLink,
       shouldShow,
@@ -140,6 +162,7 @@ export default {
 
 <style lang="scss" scoped>
 $color-blue: #027de5;
+
 .link-panel {
   background: #f1f1f1;
   padding: 2px 0 2px 2px;

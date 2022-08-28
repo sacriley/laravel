@@ -1,6 +1,10 @@
 <template>
   <div class="table-toggle-button">
-    <button @click="toggleInsertPanel">
+    <button
+      ref="insertTableButton"
+      @click="toggleInsertPanel"
+      :disabled="editor.isActive('table')"
+    >
       <FontAwesomeIcon icon="table" />
     </button>
     <div
@@ -9,13 +13,16 @@
         'is-open': isOpenInsertPanel,
       }"
     >
-      <button
-        v-for="count in 100"
-        :class="{
-          'table-cell-button': true,
-        }"
-        @click="insertTable(count)"
-      ></button>
+      <div class="table-cell-shown">
+        <button
+          v-for="count in 100"
+          :class="{
+            'table-cell-button': true,
+          }"
+          @click="insertTable(count)"
+        ></button>
+      </div>
+      <div class="table-fields-shown">2 × 2</div>
     </div>
     <BubbleMenu
       :shouldShow="shouldShow"
@@ -23,55 +30,97 @@
       :editor="editor"
       pluginKey="table"
     >
-      <button @click="toggleColumnPanel">
+      <button ref="columnTableButton" @click="toggleColumnPanel">
         <FontAwesomeIcon icon="grip-lines-vertical" />
       </button>
-      <!--      <button>向左插入一欄</button>-->
-      <!--      <button>向右插入一欄</button>-->
-      <!--      <button>刪除此欄</button>-->
       <div
         :class="{
-          'column-panel': true,
+          'child-panel': true,
           'is-open': isOpenColumnPanel,
         }"
       >
-        <button
-          :class="{
-            'menu-item-button': true,
-          }"
-        >
-          向左插入一欄
+        <button @click="editor.chain().focus().addColumnBefore().run()">
+          <FontAwesomeIcon icon="plus" />
+          向左插入縱欄
+        </button>
+        <button @click="editor.chain().focus().addColumnAfter().run()">
+          <FontAwesomeIcon icon="plus" />
+          向右插入縱欄
+        </button>
+        <button @click="editor.chain().focus().deleteColumn().run()">
+          <FontAwesomeIcon icon="trash" />
+          刪除此縱欄
         </button>
       </div>
 
-      <button>
+      <button ref="rowTableButton" @click="toggleRowPanel">
         <FontAwesomeIcon icon="grip-lines" />
       </button>
-      <!--      <button>向上插入一列</button>-->
-      <!--      <button>向下插入一列</button>-->
-      <!--      <button>刪除此列</button>-->
+      <div
+        :class="{
+          'child-panel': true,
+          'is-open': isOpenRowPanel,
+        }"
+      >
+        <button @click="editor.chain().focus().addRowBefore().run()">
+          <FontAwesomeIcon icon="plus" />
+          向上插入橫列
+        </button>
+        <button @click="editor.chain().focus().addRowAfter().run()">
+          <FontAwesomeIcon icon="plus" />
+          向下插入橫列
+        </button>
+        <button @click="editor.chain().focus().deleteRow().run()">
+          <FontAwesomeIcon icon="trash" />
+          刪除此橫列
+        </button>
+      </div>
 
-      <button>
+      <button ref="headTableButton" @click="toggleHeadPanel">
         <FontAwesomeIcon icon="columns" />
       </button>
-      <!--      <button>啟閉標題欄</button>-->
-      <!--      <button>啟閉標題列</button>-->
-      <!--      <button>啟閉儲存格標題</button>-->
+      <div
+        :class="{
+          'child-panel': true,
+          'is-open': isOpenHeadPanel,
+        }"
+      >
+        <button @click="editor.chain().focus().toggleHeaderColumn().run()">
+          <FontAwesomeIcon icon="grip-vertical" />
+          啟閉標題欄
+        </button>
+        <button @click="editor.chain().focus().toggleHeaderRow().run()">
+          <FontAwesomeIcon icon="grip-horizontal" />
+          啟閉標題列
+        </button>
+      </div>
 
-      <button>
-        <!--        合併儲存格-->
+      <button
+        ref="mergeTableButton"
+        @click="editor.chain().focus().mergeCells().run()"
+      >
         <FontAwesomeIcon icon="border-none" />
       </button>
-      <button>
-        <!--        分割儲存格-->
+      <button
+        ref="splitTableButton"
+        @click="editor.chain().focus().splitCell().run()"
+      >
         <FontAwesomeIcon icon="border-all" />
+      </button>
+
+      <button
+        ref="deleteTableButton"
+        @click="editor.chain().focus().deleteTable().run()"
+      >
+        <FontAwesomeIcon icon="trash" />
       </button>
     </BubbleMenu>
   </div>
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 import { BubbleMenu } from '@tiptap/vue-2';
 
 export default {
@@ -86,6 +135,44 @@ export default {
     const isOpenColumnPanel = ref(false);
     const isOpenRowPanel = ref(false);
     const isOpenHeadPanel = ref(false);
+    const insertTableButton = ref(null);
+    const columnTableButton = ref(null);
+    const rowTableButton = ref(null);
+    const headTableButton = ref(null);
+    const mergeTableButton = ref(null);
+    const splitTableButton = ref(null);
+    const deleteTableButton = ref(null);
+
+    onMounted(() => {
+      tippy(insertTableButton.value, {
+        content: '插入表格',
+        theme: 'tooltip',
+      });
+      tippy(columnTableButton.value, {
+        content: '調整縱欄',
+        theme: 'tooltip',
+      });
+      tippy(rowTableButton.value, {
+        content: '調整橫列',
+        theme: 'tooltip',
+      });
+      tippy(headTableButton.value, {
+        content: '表格標題',
+        theme: 'tooltip',
+      });
+      tippy(mergeTableButton.value, {
+        content: '合併儲存格',
+        theme: 'tooltip',
+      });
+      tippy(splitTableButton.value, {
+        content: '分割儲存格',
+        theme: 'tooltip',
+      });
+      tippy(deleteTableButton.value, {
+        content: '刪除表格',
+        theme: 'tooltip',
+      });
+    });
 
     const closePanel = () => {
       isOpenInsertPanel.value = false;
@@ -97,10 +184,28 @@ export default {
 
     const toggleColumnPanel = () => {
       isOpenColumnPanel.value = !isOpenColumnPanel.value;
+      isOpenRowPanel.value = false;
+      isOpenHeadPanel.value = false;
+    };
+
+    const toggleRowPanel = () => {
+      isOpenRowPanel.value = !isOpenRowPanel.value;
+      isOpenColumnPanel.value = false;
+      isOpenHeadPanel.value = false;
+    };
+
+    const toggleHeadPanel = () => {
+      isOpenHeadPanel.value = !isOpenHeadPanel.value;
+      isOpenColumnPanel.value = false;
+      isOpenRowPanel.value = false;
     };
 
     const shouldShow = (arg) => {
-      const isActive = arg.editor.isActive('table');
+      const isActive =
+        arg.editor.isActive('table') && !arg.editor.isActive('link');
+      isOpenColumnPanel.value = false;
+      isOpenRowPanel.value = false;
+      isOpenHeadPanel.value = false;
       return isActive;
     };
 
@@ -113,6 +218,7 @@ export default {
         .focus()
         .insertTable({ rows, cols, withHeaderRow: true })
         .run();
+      isOpenInsertPanel.value = false;
     };
 
     document.addEventListener('click', (event: any) => {
@@ -125,8 +231,17 @@ export default {
     });
 
     return {
+      insertTableButton,
+      columnTableButton,
+      rowTableButton,
+      headTableButton,
+      mergeTableButton,
+      splitTableButton,
+      deleteTableButton,
       toggleInsertPanel,
       toggleColumnPanel,
+      toggleRowPanel,
+      toggleHeadPanel,
       closePanel,
       shouldShow,
       insertTable,
@@ -155,19 +270,28 @@ $color-blue: #027de5;
       border-radius: 3px;
       margin-top: 2px;
       padding: 5px 0 5px 5px;
-      flex-wrap: wrap;
-      width: 143px;
+
       &.is-open {
-        display: flex;
+        display: block;
       }
-      .table-cell-button {
-        width: 12px;
-        height: 12px;
-        padding: 0;
-        transition: all 0.3s;
-        border: 2px #ddd solid;
-        background: #fff;
-        margin: 0 2px 2px 0;
+
+      .table-cell-shown {
+        flex-wrap: wrap;
+        display: flex;
+        width: 143px;
+        .table-cell-button {
+          width: 12px;
+          height: 12px;
+          padding: 0;
+          transition: all 0.3s;
+          border: 2px #ddd solid;
+          background: #fff;
+          margin: 0 2px 2px 0;
+        }
+      }
+      .table-fields-shown {
+        text-align: center;
+        font-size: 12px;
       }
     }
   }
@@ -200,11 +324,26 @@ $color-blue: #027de5;
       background: #ddd;
     }
   }
-  .column-panel {
+  .child-panel {
     position: absolute;
     display: none;
+    width: 120px;
+    box-shadow: 2px 2px 2px rgba(50, 50, 50, 0.1);
+    background: #fff;
     &.is-open {
       display: block;
+    }
+    button {
+      width: 100%;
+      background: #fff;
+      transition: 0.2s;
+      text-align: left;
+      &:hover {
+        background: #ddd;
+      }
+      svg {
+        width: 18px;
+      }
     }
   }
 }

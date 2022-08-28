@@ -1,6 +1,6 @@
 <template>
   <div class="color-toggle-button">
-    <button @click="togglePanel">
+    <button ref="colorButton" @click="togglePanel">
       <FontAwesomeIcon icon="paint-brush" />
     </button>
     <div
@@ -50,7 +50,8 @@
 </template>
 
 <script lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import tippy from 'tippy.js';
 
 export default {
   inject: ['editor'],
@@ -58,6 +59,15 @@ export default {
     const editor: any = inject('editor');
 
     const isOpen = ref(false);
+
+    const colorButton = ref(null);
+
+    onMounted(() => {
+      tippy(colorButton.value, {
+        content: '文字顏色',
+        theme: 'tooltip',
+      });
+    });
 
     const colors = [
       {
@@ -168,6 +178,7 @@ export default {
 
     return {
       colors,
+      colorButton,
       togglePanel,
       closePanel,
       isOpen,
