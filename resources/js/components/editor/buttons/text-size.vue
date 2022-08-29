@@ -33,54 +33,40 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { inject, onMounted, ref } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const editor: any = inject('editor');
+const editor: any = inject('editor');
 
-    const isOpen = ref(false);
+const isOpen = ref(false);
 
-    const sizes = [12, 14, 16, 20, 24, 28, 32, 36, 48, 60, 72];
-    const textSizeButton = ref(null);
+const sizes = [12, 14, 16, 20, 24, 28, 32, 36, 48, 60, 72];
+const textSizeButton = ref(null);
 
-    onMounted(() => {
-      tippy(textSizeButton.value, {
-        content: '文字大小',
-        theme: 'tooltip',
-      });
-    });
+onMounted(() => {
+  tippy(textSizeButton.value, {
+    content: '文字大小',
+    theme: 'tooltip',
+  });
+});
 
-    const closePanel = () => {
-      isOpen.value = false;
-    };
-
-    const togglePanel = () => {
-      isOpen.value = !isOpen.value;
-    };
-
-    document.addEventListener('click', (event: any) => {
-      if (
-        isOpen.value &&
-        !event.path.includes(document.querySelector('.font-size-toggle-button'))
-      ) {
-        closePanel();
-      }
-    });
-
-    return {
-      sizes,
-      textSizeButton,
-      togglePanel,
-      closePanel,
-      isOpen,
-      editor,
-    };
-  },
+const closePanel = () => {
+  isOpen.value = false;
 };
+
+const togglePanel = () => {
+  isOpen.value = !isOpen.value;
+};
+
+document.addEventListener('click', (event: any) => {
+  if (
+    isOpen.value &&
+    !event.path.includes(document.querySelector('.font-size-toggle-button'))
+  ) {
+    closePanel();
+  }
+});
 </script>
 
 <style lang="scss" scoped>

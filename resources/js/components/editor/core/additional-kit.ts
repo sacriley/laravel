@@ -19,15 +19,12 @@ import {
 import Youtube, { YoutubeOptions } from '@tiptap/extension-youtube';
 import Embed, { EmbedOptions } from '@/components/editor/extentions/embed';
 import Table, { TableOptions } from '@tiptap/extension-table';
-import { TableView } from '@/components/editor/extentions/table/table-view';
-// import { TableView } from '@tiptap/extension-table/src/TableView';
 import TableCell, { TableCellOptions } from '@tiptap/extension-table-cell';
 import TableHeader, {
   TableHeaderOptions,
 } from '@tiptap/extension-table-header';
 import TableRow, { TableRowOptions } from '@tiptap/extension-table-row';
-import Dropcursor, { DropcursorOptions } from '@tiptap/extension-dropcursor';
-// import BubbleMenu, { BubbleMenuOptions } from '@tiptap/extension-bubble-menu';
+import Image, { ImageOptions } from '@tiptap/extension-image';
 
 export interface AdditionalKitOptions {
   underline: Partial<UnderlineOptions> | false;
@@ -47,8 +44,7 @@ export interface AdditionalKitOptions {
   tableCell: Partial<TableCellOptions> | false;
   tableHeader: Partial<TableHeaderOptions> | false;
   tableRow: Partial<TableRowOptions> | false;
-  dropcursor: Partial<DropcursorOptions> | false;
-  // bubbleMenu: Partial<BubbleMenuOptions> | false;
+  image: Partial<ImageOptions> | false;
 }
 
 const AdditionalKit = Extension.create<AdditionalKitOptions>({
@@ -210,30 +206,9 @@ const AdditionalKit = Extension.create<AdditionalKitOptions>({
       extensions.push(TableRow.configure(this.options?.tableRow));
     }
 
-    if (this.options.dropcursor !== false) {
-      extensions.push(Dropcursor.configure(this.options?.dropcursor));
+    if (this.options.image !== false) {
+      extensions.push(Image.configure(this.options?.image));
     }
-
-    // if (this.options.bubbleMenu !== false) {
-    //   if (this.options?.bubbleMenu) {
-    //     extensions.push(BubbleMenu.configure(this.options?.bubbleMenu));
-    //   } else {
-    //     extensions.push(
-    //       BubbleMenu.configure({
-    //         shouldShow: ({ editor, view, state, oldState, from, to }) => {
-    //           // only show the bubble menu for images and links
-    //           console.log('hey');
-    //           console.log(view);
-    //           console.log(state);
-    //           console.log(oldState);
-    //           console.log(from);
-    //           console.log(to);
-    //           return editor.isActive('link');
-    //         },
-    //       }),
-    //     );
-    //   }
-    // }
 
     return extensions;
   },

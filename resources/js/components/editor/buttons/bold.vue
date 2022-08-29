@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { inject, ref, onMounted } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const boldButton = ref(null);
+const editor = inject('editor');
+const boldButton = ref(null);
 
-    onMounted(() => {
-      tippy(boldButton.value, {
-        content: '粗體',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      boldButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(boldButton.value, {
+    content: '粗體',
+    theme: 'tooltip',
+  });
+});
 </script>

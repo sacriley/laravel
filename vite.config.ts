@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue2';
+// @ts-ignore
 import fs from 'fs';
+// @ts-ignore
 import path from 'path';
 
 const getAllFiles = (directory): string[] => {
@@ -40,6 +42,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/resources/js',
+      vue: 'vue/dist/vue.esm.js',
     },
   },
 });

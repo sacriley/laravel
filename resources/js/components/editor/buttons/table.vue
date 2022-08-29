@@ -15,14 +15,16 @@
     >
       <div class="table-cell-shown">
         <button
-          v-for="count in 100"
+          v-for="cell in cells"
           :class="{
             'table-cell-button': true,
+            'is-active': cell.isActive,
           }"
-          @click="insertTable(count)"
+          @click="insertTable(cell.row, cell.column)"
+          @mouseenter="onCellHover(cell.row, cell.column)"
         ></button>
       </div>
-      <div class="table-fields-shown">2 × 2</div>
+      <div class="table-fields-shown">{{ tableFieldsShown }}</div>
     </div>
     <BubbleMenu
       :shouldShow="shouldShow"
@@ -118,140 +120,143 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { inject, onMounted, ref } from 'vue';
 import tippy from 'tippy.js';
 import { BubbleMenu } from '@tiptap/vue-2';
 
+interface Cell {
+  row: number;
+  column: number;
+  isActive: boolean;
+}
+
+const editor: any = inject('editor');
+const isOpenInsertPanel = ref(false);
+const isOpenColumnPanel = ref(false);
+const isOpenRowPanel = ref(false);
+const isOpenHeadPanel = ref(false);
+const insertTableButton = ref(null);
+const columnTableButton = ref(null);
+const rowTableButton = ref(null);
+const headTableButton = ref(null);
+const mergeTableButton = ref(null);
+const splitTableButton = ref(null);
+const deleteTableButton = ref(null);
+const tableFieldsShown = ref('0 × 0');
+
+const originCells = [];
+
+for (let i = 0; i < 100; i += 1) {
+  originCells.push({
+    row: Math.floor(i / 10),
+    column: i % 10,
+    isActive: false,
+  });
+}
+
+const cells = ref<Cell[]>(originCells);
+
+onMounted(() => {
+  tippy(insertTableButton.value, {
+    content: '插入表格',
+    theme: 'tooltip',
+  });
+  tippy(columnTableButton.value, {
+    content: '調整縱欄',
+    theme: 'tooltip',
+  });
+  tippy(rowTableButton.value, {
+    content: '調整橫列',
+    theme: 'tooltip',
+  });
+  tippy(headTableButton.value, {
+    content: '表格標題',
+    theme: 'tooltip',
+  });
+  tippy(mergeTableButton.value, {
+    content: '合併儲存格',
+    theme: 'tooltip',
+  });
+  tippy(splitTableButton.value, {
+    content: '分割儲存格',
+    theme: 'tooltip',
+  });
+  tippy(deleteTableButton.value, {
+    content: '刪除表格',
+    theme: 'tooltip',
+  });
+});
+
+const closePanel = () => {
+  isOpenInsertPanel.value = false;
+};
+
+const toggleInsertPanel = () => {
+  isOpenInsertPanel.value = !isOpenInsertPanel.value;
+};
+
+const toggleColumnPanel = () => {
+  isOpenColumnPanel.value = !isOpenColumnPanel.value;
+  isOpenRowPanel.value = false;
+  isOpenHeadPanel.value = false;
+};
+
+const toggleRowPanel = () => {
+  isOpenRowPanel.value = !isOpenRowPanel.value;
+  isOpenColumnPanel.value = false;
+  isOpenHeadPanel.value = false;
+};
+
+const toggleHeadPanel = () => {
+  isOpenHeadPanel.value = !isOpenHeadPanel.value;
+  isOpenColumnPanel.value = false;
+  isOpenRowPanel.value = false;
+};
+
+const shouldShow = (arg) => {
+  const isActive = arg.editor.isActive('table') && !arg.editor.isActive('link');
+  isOpenColumnPanel.value = false;
+  isOpenRowPanel.value = false;
+  isOpenHeadPanel.value = false;
+  return isActive;
+};
+
+const insertTable = (row, column) => {
+  editor.value
+    .chain()
+    .focus()
+    .insertTable({ rows: row + 1, cols: column + 1, withHeaderRow: true })
+    .run();
+  isOpenInsertPanel.value = false;
+};
+
+const onCellHover = (row, column) => {
+  cells.value.forEach((cell, index) => {
+    cells.value[index].isActive = false;
+  });
+
+  cells.value.forEach((cell, index) => {
+    if (cell.row <= row && cell.column <= column) {
+      cells.value[index].isActive = true;
+    }
+  });
+  tableFieldsShown.value = `${column + 1} × ${row + 1}`;
+};
+
+document.addEventListener('click', (event: any) => {
+  if (
+    isOpenInsertPanel.value &&
+    !event.path.includes(document.querySelector('.table-toggle-button'))
+  ) {
+    closePanel();
+  }
+});
+</script>
+
+<script lang="ts">
 export default {
-  components: {
-    BubbleMenu,
-  },
-  inject: ['editor'],
-  setup() {
-    const editor: any = inject('editor');
-
-    const isOpenInsertPanel = ref(false);
-    const isOpenColumnPanel = ref(false);
-    const isOpenRowPanel = ref(false);
-    const isOpenHeadPanel = ref(false);
-    const insertTableButton = ref(null);
-    const columnTableButton = ref(null);
-    const rowTableButton = ref(null);
-    const headTableButton = ref(null);
-    const mergeTableButton = ref(null);
-    const splitTableButton = ref(null);
-    const deleteTableButton = ref(null);
-
-    onMounted(() => {
-      tippy(insertTableButton.value, {
-        content: '插入表格',
-        theme: 'tooltip',
-      });
-      tippy(columnTableButton.value, {
-        content: '調整縱欄',
-        theme: 'tooltip',
-      });
-      tippy(rowTableButton.value, {
-        content: '調整橫列',
-        theme: 'tooltip',
-      });
-      tippy(headTableButton.value, {
-        content: '表格標題',
-        theme: 'tooltip',
-      });
-      tippy(mergeTableButton.value, {
-        content: '合併儲存格',
-        theme: 'tooltip',
-      });
-      tippy(splitTableButton.value, {
-        content: '分割儲存格',
-        theme: 'tooltip',
-      });
-      tippy(deleteTableButton.value, {
-        content: '刪除表格',
-        theme: 'tooltip',
-      });
-    });
-
-    const closePanel = () => {
-      isOpenInsertPanel.value = false;
-    };
-
-    const toggleInsertPanel = () => {
-      isOpenInsertPanel.value = !isOpenInsertPanel.value;
-    };
-
-    const toggleColumnPanel = () => {
-      isOpenColumnPanel.value = !isOpenColumnPanel.value;
-      isOpenRowPanel.value = false;
-      isOpenHeadPanel.value = false;
-    };
-
-    const toggleRowPanel = () => {
-      isOpenRowPanel.value = !isOpenRowPanel.value;
-      isOpenColumnPanel.value = false;
-      isOpenHeadPanel.value = false;
-    };
-
-    const toggleHeadPanel = () => {
-      isOpenHeadPanel.value = !isOpenHeadPanel.value;
-      isOpenColumnPanel.value = false;
-      isOpenRowPanel.value = false;
-    };
-
-    const shouldShow = (arg) => {
-      const isActive =
-        arg.editor.isActive('table') && !arg.editor.isActive('link');
-      isOpenColumnPanel.value = false;
-      isOpenRowPanel.value = false;
-      isOpenHeadPanel.value = false;
-      return isActive;
-    };
-
-    const insertTable = (count) => {
-      const rows = count / 10;
-      const cols = count % 10;
-
-      editor.value
-        .chain()
-        .focus()
-        .insertTable({ rows, cols, withHeaderRow: true })
-        .run();
-      isOpenInsertPanel.value = false;
-    };
-
-    document.addEventListener('click', (event: any) => {
-      if (
-        isOpenInsertPanel.value &&
-        !event.path.includes(document.querySelector('.table-toggle-button'))
-      ) {
-        closePanel();
-      }
-    });
-
-    return {
-      insertTableButton,
-      columnTableButton,
-      rowTableButton,
-      headTableButton,
-      mergeTableButton,
-      splitTableButton,
-      deleteTableButton,
-      toggleInsertPanel,
-      toggleColumnPanel,
-      toggleRowPanel,
-      toggleHeadPanel,
-      closePanel,
-      shouldShow,
-      insertTable,
-      isOpenInsertPanel,
-      isOpenHeadPanel,
-      isOpenColumnPanel,
-      isOpenRowPanel,
-      editor,
-    };
-  },
+  name: 'TableButton',
 };
 </script>
 
@@ -287,6 +292,10 @@ $color-blue: #027de5;
           border: 2px #ddd solid;
           background: #fff;
           margin: 0 2px 2px 0;
+          &.is-active {
+            background: $color-blue;
+            border: 2px $color-blue solid;
+          }
         }
       }
       .table-fields-shown {

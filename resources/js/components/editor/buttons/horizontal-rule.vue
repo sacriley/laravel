@@ -7,25 +7,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const horizontalRuleButton = ref(null);
+const editor: any = inject('editor');
+const horizontalRuleButton = ref(null);
 
-    onMounted(() => {
-      tippy(horizontalRuleButton.value, {
-        content: '水平線',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      horizontalRuleButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(horizontalRuleButton.value, {
+    content: '水平線',
+    theme: 'tooltip',
+  });
+});
 </script>

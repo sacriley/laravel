@@ -1,6 +1,11 @@
 <template>
   <div class="editor">
-    <div class="menu">
+    <div
+      class="menu"
+      :style="{
+        top: `${menuStickyTop}px`,
+      }"
+    >
       <ParagraphButton />
       <TextSizeButton />
       <ColorButton />
@@ -27,16 +32,24 @@
       <EmbedButton />
       <ClearButton />
     </div>
-    <EditorContent :editor="editor" />
+    <EditorContent
+      :editor="editor"
+      :style="{
+        width: `${width}px`,
+        height: `${height}px`,
+        minHeight: `${minHeight}px`,
+        maxHeight: `${maxHeight}px`,
+      }"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { computed, reactive } from 'vue';
-import { Editor, EditorContent } from '@tiptap/vue-2';
-import StarterKit from '@tiptap/starter-kit';
-import AdditionalKit from '@/components/editor/core/additional-kit';
-import '@/components/editor/scss/default.scss';
+<script lang="ts" setup>
+import { defineProps } from 'vue';
+import {
+  createEditor,
+  EditorContent,
+} from '@/components/editor/core/editor-core';
 
 import ColorButton from '@/components/editor/buttons/color.vue';
 import TextSizeButton from '@/components/editor/buttons/text-size.vue';
@@ -61,58 +74,15 @@ import EmbedButton from '@/components/editor/buttons/embed.vue';
 import TableButton from '@/components/editor/buttons/table.vue';
 import Separator from '@/components/editor/menu/separator.vue';
 
-export default {
-  components: {
-    EditorContent,
-    TextSizeButton,
-    ColorButton,
-    HighlightButton,
-    BoldButton,
-    ClearButton,
-    CodeButton,
-    ItalicButton,
-    StrikeButton,
-    ParagraphButton,
-    TextAlignButton,
-    LinkButton,
-    ImageButton,
-    UnderlineButton,
-    BlockQuoteButton,
-    BulletListButton,
-    TaskListButton,
-    TableButton,
-    CodeBlockButton,
-    OrderedListButton,
-    YoutubeButton,
-    EmbedButton,
-    Separator,
-  },
-  provide() {
-    return {
-      editor: computed(() => this.editor),
-    };
-  },
-  setup() {
-    const editor = reactive(
-      new Editor({
-        content:
-          '<h3>I’m running Tiptap with Vue.js</h3>' +
-          '<p>I’m running <a href="http://fanswoo.com">Tiptap</a> with Vue.js</p>' +
-          '<div class="tableWrapper"><table style="min-width: 75px;"><colgroup><col><col><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th><th colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></th></tr><tr><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td></tr><tr><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td><td colspan="1" rowspan="1"><p class="ProseMirror-trailingBreak"></p></td></tr></tbody></table></div>',
-        extensions: [
-          StarterKit,
-          AdditionalKit.configure({
-            // placeholder: {
-            //   placeholder: 'test...',
-            // },
-          }),
-        ],
-      }),
-    );
-    return { editor };
-  },
-  beforeDestroy() {
-    this.editor.destroy();
-  },
-};
+const { content, placeholder = '請輸入內容 ...' } = defineProps<{
+  content?: string;
+  placeholder?: string;
+  menuStickyTop?: number;
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  maxHeight?: number;
+}>();
+
+const { editor } = createEditor({ content, placeholder });
 </script>

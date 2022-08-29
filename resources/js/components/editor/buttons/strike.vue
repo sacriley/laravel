@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const strikeButton = ref(null);
+const editor: any = inject('editor');
+const strikeButton = ref(null);
 
-    onMounted(() => {
-      tippy(strikeButton.value, {
-        content: '刪除線',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      strikeButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(strikeButton.value, {
+    content: '刪除線',
+    theme: 'tooltip',
+  });
+});
 </script>

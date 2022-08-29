@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const bulletListButton = ref(null);
+const bulletListButton = ref(null);
+const editor = inject('editor');
 
-    onMounted(() => {
-      tippy(bulletListButton.value, {
-        content: '符號清單',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      bulletListButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(bulletListButton.value, {
+    content: '符號清單',
+    theme: 'tooltip',
+  });
+});
 </script>

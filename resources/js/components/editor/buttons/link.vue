@@ -36,127 +36,105 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { inject, ref, nextTick, onMounted } from 'vue';
 import { BubbleMenu } from '@tiptap/vue-2';
 import tippy from 'tippy.js';
 
+const editor: any = inject('editor');
+
+const linkButton = ref(null);
+const unlinkButton = ref(null);
+const checkButton = ref(null);
+const openNewLinkButton = ref(null);
+
+const inputLink = ref(null);
+
+const getSelectedText = (): string => {
+  // console.log(editor.value);
+  const { state } = editor.value;
+  const { from, to } = state.selection;
+  return state.doc.textBetween(from, to, ' ');
+};
+
+const addLink = async () => {
+  await nextTick();
+  const url = editor.value.getAttributes('link').href;
+
+  if (url && !editor.value.isActive('link')) {
+    editor.value.chain().focus().setLink({ href: url }).run();
+    return;
+  }
+
+  if (url && editor.value.isActive('link')) {
+    editor.value.chain().focus().extendMarkRange('link', { href: url }).run();
+    return;
+  }
+
+  editor.value
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .setLink({ href: '' })
+    .run();
+};
+
+const shouldShow = (arg) => {
+  const isActive = arg.editor.isActive('link');
+  return isActive;
+};
+
+const openNewLink = () => {
+  const url = editor.value.getAttributes('link').href;
+  if (url) {
+    window.open(url, '_blank');
+  }
+};
+
+const changeLink = async () => {
+  let url = (inputLink.value as HTMLInputElement).value;
+
+  if (!url.includes('http://', 0) && !url.includes('https://', 0)) {
+    url = `http://${url}`;
+  }
+
+  if (url === '') {
+    editor.value.chain().focus().extendMarkRange('link').unsetLink()!.run();
+    return;
+  }
+
+  editor.value
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .setLink({ href: url })
+    .run();
+  // editor.value.commands.blur();
+};
+
+onMounted(() => {
+  tippy(linkButton.value, {
+    content: '超連結',
+    theme: 'tooltip',
+  });
+  tippy(unlinkButton.value, {
+    content: '取消連結',
+    theme: 'tooltip',
+  });
+  tippy(checkButton.value, {
+    content: '確認連結',
+    theme: 'tooltip',
+  });
+  tippy(openNewLinkButton.value, {
+    content: '開啟連結',
+    theme: 'tooltip',
+  });
+});
+</script>
+
+<script lang="ts">
 export default {
-  components: {
-    BubbleMenu,
-  },
-  setup() {
-    const editor: any = inject('editor');
-
-    const linkButton = ref(null);
-    const unlinkButton = ref(null);
-    const checkButton = ref(null);
-    const openNewLinkButton = ref(null);
-
-    const inputLink = ref(null);
-
-    const selectedText = ref('selectedText');
-
-    const getSelectedText = (): string => {
-      // console.log(editor.value);
-      const { state } = editor.value;
-      const { from, to } = state.selection;
-      return state.doc.textBetween(from, to, ' ');
-    };
-
-    const addLink = async () => {
-      await nextTick();
-      const url = editor.value.getAttributes('link').href;
-
-      if (url && !editor.value.isActive('link')) {
-        editor.value.chain().focus().setLink({ href: url }).run();
-        return;
-      }
-
-      if (url && editor.value.isActive('link')) {
-        editor.value
-          .chain()
-          .focus()
-          .extendMarkRange('link', { href: url })
-          .run();
-        return;
-      }
-
-      editor.value
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink({ href: '' })
-        .run();
-    };
-
-    const shouldShow = (arg) => {
-      const isActive = arg.editor.isActive('link');
-      return isActive;
-    };
-
-    const openNewLink = () => {
-      const url = editor.value.getAttributes('link').href;
-      if (url) {
-        window.open(url, '_blank');
-      }
-    };
-
-    const changeLink = async () => {
-      let url = (inputLink.value as HTMLInputElement).value;
-
-      if (!url.includes('http://', 0) && !url.includes('https://', 0)) {
-        url = `http://${url}`;
-      }
-
-      if (url === '') {
-        editor.value.chain().focus().extendMarkRange('link').unsetLink()!.run();
-        return;
-      }
-
-      editor.value
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink({ href: url })
-        .run();
-      // editor.value.commands.blur();
-    };
-
-    onMounted(() => {
-      tippy(linkButton.value, {
-        content: '超連結',
-        theme: 'tooltip',
-      });
-      tippy(unlinkButton.value, {
-        content: '取消連結',
-        theme: 'tooltip',
-      });
-      tippy(checkButton.value, {
-        content: '確認連結',
-        theme: 'tooltip',
-      });
-      tippy(openNewLinkButton.value, {
-        content: '開啟連結',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      editor,
-      linkButton,
-      unlinkButton,
-      checkButton,
-      openNewLinkButton,
-      selectedText,
-      inputLink,
-      shouldShow,
-      openNewLink,
-      addLink,
-      changeLink,
-      getSelectedText,
-    };
-  },
+  name: 'LinkButton',
 };
 </script>
 

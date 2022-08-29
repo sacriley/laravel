@@ -7,25 +7,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const clearButton = ref(null);
+const clearButton = ref(null);
+const editor = inject('editor');
 
-    onMounted(() => {
-      tippy(clearButton.value, {
-        content: '清除格式',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      clearButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(clearButton.value, {
+    content: '清除格式',
+    theme: 'tooltip',
+  });
+});
 </script>

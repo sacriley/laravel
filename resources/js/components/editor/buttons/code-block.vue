@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const codeBlockButton = ref(null);
+const editor = inject('editor');
+const codeBlockButton = ref(null);
 
-    onMounted(() => {
-      tippy(codeBlockButton.value, {
-        content: '程式碼區塊',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      codeBlockButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(codeBlockButton.value, {
+    content: '程式碼區塊',
+    theme: 'tooltip',
+  });
+});
 </script>

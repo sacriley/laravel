@@ -109,102 +109,88 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref, computed, inject, onMounted } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  setup() {
-    const textItems = {
-      paragraph: '文字段落',
-      h1: '標題 H1',
-      h2: '標題 H2',
-      h3: '標題 H3',
-      h4: '標題 H4',
-      h5: '標題 H5',
-      h6: '標題 H6',
-      none: '多個段落',
-    };
-
-    const paragraphButton = ref(null);
-
-    onMounted(() => {
-      tippy(paragraphButton.value, {
-        content: '段落',
-        theme: 'tooltip',
-      });
-    });
-
-    const editor: any = inject('editor');
-
-    const isOpen = ref(false);
-
-    const displayText = computed(() => {
-      let text: string;
-
-      if (editor.value.isActive('paragraph')) {
-        text = textItems.paragraph;
-      }
-
-      if (editor.value.isActive('heading', { level: 1 })) {
-        text = textItems.h1;
-      }
-
-      if (editor.value.isActive('heading', { level: 2 })) {
-        text = textItems.h2;
-      }
-
-      if (editor.value.isActive('heading', { level: 3 })) {
-        text = textItems.h3;
-      }
-
-      if (editor.value.isActive('heading', { level: 4 })) {
-        text = textItems.h4;
-      }
-
-      if (editor.value.isActive('heading', { level: 5 })) {
-        text = textItems.h5;
-      }
-
-      if (editor.value.isActive('heading', { level: 6 })) {
-        text = textItems.h6;
-      }
-
-      if (text === undefined) {
-        text = textItems.none;
-      }
-
-      return text;
-    });
-
-    const togglePanel = () => {
-      isOpen.value = !isOpen.value;
-    };
-
-    const closePanel = () => {
-      isOpen.value = false;
-    };
-
-    document.addEventListener('click', (event: any) => {
-      if (
-        isOpen.value &&
-        !event.path.includes(document.querySelector('.paragraph-toggle-button'))
-      ) {
-        closePanel();
-      }
-    });
-
-    return {
-      editor,
-      isOpen,
-      displayText,
-      textItems,
-      paragraphButton,
-      closePanel,
-      togglePanel,
-    };
-  },
+const textItems = {
+  paragraph: '文字段落',
+  h1: '標題 H1',
+  h2: '標題 H2',
+  h3: '標題 H3',
+  h4: '標題 H4',
+  h5: '標題 H5',
+  h6: '標題 H6',
+  none: '多個段落',
 };
+
+const paragraphButton = ref(null);
+
+onMounted(() => {
+  tippy(paragraphButton.value, {
+    content: '段落',
+    theme: 'tooltip',
+  });
+});
+
+const editor: any = inject('editor');
+
+const isOpen = ref(false);
+
+const displayText = computed(() => {
+  let text: string;
+
+  if (editor.value.isActive('paragraph')) {
+    text = textItems.paragraph;
+  }
+
+  if (editor.value.isActive('heading', { level: 1 })) {
+    text = textItems.h1;
+  }
+
+  if (editor.value.isActive('heading', { level: 2 })) {
+    text = textItems.h2;
+  }
+
+  if (editor.value.isActive('heading', { level: 3 })) {
+    text = textItems.h3;
+  }
+
+  if (editor.value.isActive('heading', { level: 4 })) {
+    text = textItems.h4;
+  }
+
+  if (editor.value.isActive('heading', { level: 5 })) {
+    text = textItems.h5;
+  }
+
+  if (editor.value.isActive('heading', { level: 6 })) {
+    text = textItems.h6;
+  }
+
+  if (text === undefined) {
+    text = textItems.none;
+  }
+
+  return text;
+});
+
+const togglePanel = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const closePanel = () => {
+  isOpen.value = false;
+};
+
+document.addEventListener('click', (event: any) => {
+  if (
+    isOpen.value &&
+    !event.path.includes(document.querySelector('.paragraph-toggle-button'))
+  ) {
+    closePanel();
+  }
+});
 </script>
 
 <style lang="scss" scoped>

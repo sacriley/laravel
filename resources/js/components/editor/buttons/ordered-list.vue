@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const orderedListButton = ref(null);
+const editor: any = inject('editor');
+const orderedListButton = ref(null);
 
-    onMounted(() => {
-      tippy(orderedListButton.value, {
-        content: '有序清單',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      orderedListButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(orderedListButton.value, {
+    content: '有序清單',
+    theme: 'tooltip',
+  });
+});
 </script>

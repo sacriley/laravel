@@ -4,43 +4,30 @@
   </button>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { inject, onMounted, ref } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const editor: any = inject('editor');
-    const width = ref(640);
-    const height = ref(480);
-    const youtubeButton = ref(null);
+const editor: any = inject('editor');
+const width = ref(640);
+const height = ref(480);
+const youtubeButton = ref(null);
 
-    onMounted(() => {
-      tippy(youtubeButton.value, {
-        content: '插入 Youtube',
-        theme: 'tooltip',
-      });
-    });
+onMounted(() => {
+  tippy(youtubeButton.value, {
+    content: '插入 Youtube',
+    theme: 'tooltip',
+  });
+});
 
-    const addVideo = () => {
-      const url = prompt('Enter YouTube URL');
+const addVideo = () => {
+  const url = prompt('Enter YouTube URL');
 
-      editor.value.commands.setYoutubeVideo({
-        src: url,
-        width: Math.max(640, width.value) || 640,
-        height: Math.max(480, height.value) || 480,
-      });
-    };
-
-    return {
-      width,
-      height,
-      editor,
-      addVideo,
-      youtubeButton,
-    };
-  },
+  editor.value.commands.setYoutubeVideo({
+    src: url,
+    width: Math.max(640, width.value) || 640,
+    height: Math.max(480, height.value) || 480,
+  });
 };
 </script>
 

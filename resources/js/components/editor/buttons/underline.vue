@@ -8,25 +8,17 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const underlineButton = ref(null);
+const editor: any = inject('editor');
+const underlineButton = ref(null);
 
-    onMounted(() => {
-      tippy(underlineButton.value, {
-        content: '底線',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      underlineButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(underlineButton.value, {
+    content: '底線',
+    theme: 'tooltip',
+  });
+});
 </script>

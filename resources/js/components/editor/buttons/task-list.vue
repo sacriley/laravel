@@ -8,27 +8,19 @@
   </button>
 </template>
 
-<script lang="ts">
-import { ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, inject } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const taskListButton = ref(null);
+const editor: any = inject('editor');
+const taskListButton = ref(null);
 
-    onMounted(() => {
-      tippy(taskListButton.value, {
-        content: '任務清單',
-        theme: 'tooltip',
-      });
-    });
-
-    return {
-      taskListButton,
-    };
-  },
-};
+onMounted(() => {
+  tippy(taskListButton.value, {
+    content: '任務清單',
+    theme: 'tooltip',
+  });
+});
 </script>
 
 <style lang="scss">

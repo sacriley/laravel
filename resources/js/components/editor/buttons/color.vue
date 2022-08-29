@@ -49,143 +49,129 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { inject, onMounted, ref } from 'vue';
 import tippy from 'tippy.js';
 
-export default {
-  inject: ['editor'],
-  setup() {
-    const editor: any = inject('editor');
+const editor: any = inject('editor');
 
-    const isOpen = ref(false);
+const isOpen = ref(false);
 
-    const colorButton = ref(null);
+const colorButton = ref(null);
 
-    onMounted(() => {
-      tippy(colorButton.value, {
-        content: '文字顏色',
-        theme: 'tooltip',
-      });
-    });
-
-    const colors = [
-      {
-        color: '#000000',
-        hasWhiteTick: true,
-        text: '黑色',
-      },
-      {
-        color: '#444444',
-        hasWhiteTick: true,
-        text: '深灰色',
-      },
-      {
-        color: '#777777',
-        hasWhiteTick: true,
-        text: '灰色',
-      },
-      {
-        color: '#AAAAAA',
-        text: '淺灰色',
-      },
-      {
-        color: '#FFFFFF',
-        hasBorder: true,
-        text: '白色',
-      },
-      {
-        color: '#C42553',
-        text: '深紅色',
-      },
-      {
-        color: '#E18929',
-        text: '深橘色',
-      },
-      {
-        color: '#7BA345',
-        hasWhiteTick: true,
-        text: '深綠色',
-      },
-      {
-        color: '#156EA6',
-        text: '深藍色',
-      },
-      {
-        color: '#5B297F',
-        text: '深紫色',
-      },
-      {
-        color: '#C66792',
-        text: '紅色',
-      },
-      {
-        color: '#D0A06F',
-        text: '橘色',
-      },
-      {
-        color: '#8ca866',
-        hasWhiteTick: true,
-        text: '綠色',
-      },
-      {
-        color: '#469DC1',
-        text: '藍色',
-      },
-      {
-        color: '#8469A1',
-        text: '紫色',
-      },
-      {
-        color: '#D17CAA',
-        text: '粉紅色',
-      },
-      {
-        color: '#F4C8A4',
-        text: '粉橘色',
-      },
-      {
-        color: '#a0b089',
-        hasWhiteTick: true,
-        text: '粉綠色',
-      },
-      {
-        color: '#5CB7CC',
-        text: '粉藍色',
-      },
-      {
-        color: '#B4A3CE',
-        text: '粉紫色',
-      },
-    ];
-
-    const closePanel = () => {
-      isOpen.value = false;
-    };
-
-    const togglePanel = () => {
-      isOpen.value = !isOpen.value;
-    };
-
-    document.addEventListener('click', (event: any) => {
-      if (
-        isOpen.value &&
-        !event.path.includes(document.querySelector('.color-toggle-button'))
-      ) {
-        closePanel();
-      }
-    });
-
-    return {
-      colors,
-      colorButton,
-      togglePanel,
-      closePanel,
-      isOpen,
-      editor,
-    };
+const colors = [
+  {
+    color: '#000000',
+    hasWhiteTick: true,
+    text: '黑色',
   },
+  {
+    color: '#444444',
+    hasWhiteTick: true,
+    text: '深灰色',
+  },
+  {
+    color: '#777777',
+    hasWhiteTick: true,
+    text: '灰色',
+  },
+  {
+    color: '#AAAAAA',
+    text: '淺灰色',
+  },
+  {
+    color: '#FFFFFF',
+    hasBorder: true,
+    text: '白色',
+  },
+  {
+    color: '#C42553',
+    text: '深紅色',
+  },
+  {
+    color: '#E18929',
+    text: '深橘色',
+  },
+  {
+    color: '#7BA345',
+    hasWhiteTick: true,
+    text: '深綠色',
+  },
+  {
+    color: '#156EA6',
+    text: '深藍色',
+  },
+  {
+    color: '#5B297F',
+    text: '深紫色',
+  },
+  {
+    color: '#C66792',
+    text: '紅色',
+  },
+  {
+    color: '#D0A06F',
+    text: '橘色',
+  },
+  {
+    color: '#8ca866',
+    hasWhiteTick: true,
+    text: '綠色',
+  },
+  {
+    color: '#469DC1',
+    text: '藍色',
+  },
+  {
+    color: '#8469A1',
+    text: '紫色',
+  },
+  {
+    color: '#D17CAA',
+    text: '粉紅色',
+  },
+  {
+    color: '#F4C8A4',
+    text: '粉橘色',
+  },
+  {
+    color: '#a0b089',
+    hasWhiteTick: true,
+    text: '粉綠色',
+  },
+  {
+    color: '#5CB7CC',
+    text: '粉藍色',
+  },
+  {
+    color: '#B4A3CE',
+    text: '粉紫色',
+  },
+];
+
+const closePanel = () => {
+  isOpen.value = false;
 };
+
+const togglePanel = () => {
+  isOpen.value = !isOpen.value;
+};
+
+onMounted(() => {
+  tippy(colorButton.value, {
+    content: '文字顏色',
+    theme: 'tooltip',
+  });
+});
+
+document.addEventListener('click', (event: any) => {
+  if (
+    isOpen.value &&
+    !event.path.includes(document.querySelector('.color-toggle-button'))
+  ) {
+    closePanel();
+  }
+});
 </script>
 
 <style lang="scss" scoped>
